@@ -23,8 +23,12 @@ export class BrandService {
     return brands;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
+  async findOne(id: string) {
+    const brand = await this.brandRepository.findOneBy({
+      id
+    });
+
+    return brand;
   }
 
   // update(id: number, updateBrandDto: UpdateBrandDto) {

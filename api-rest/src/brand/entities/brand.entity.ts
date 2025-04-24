@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
+import { Product } from "src/products/entities/product.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity()
 export class Brand {
 
@@ -21,5 +21,13 @@ export class Brand {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(
+    () => Product,
+    ( product ) => product.id,
+    {  onDelete: 'CASCADE' }
+  )
+  // @JoinColumn({ name: 'id' })
+  product: Product
 
 }
