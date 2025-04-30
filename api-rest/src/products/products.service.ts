@@ -4,8 +4,6 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
-import { Brand } from 'src/brand/entities/brand.entity';
-import { BrandService } from '../brand/brand.service';
 
 @Injectable()
 export class ProductsService {
@@ -13,9 +11,6 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
-
-    @Inject()
-    private readonly brandService: BrandService,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
