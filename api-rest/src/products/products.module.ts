@@ -3,7 +3,6 @@ import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
-// import { BrandModule } from 'src/brand/brand.module';
 import { Category } from './entities/category.entity';
 import { ProductSpecs } from './entities/productSpecs.entity';
 import { Brand } from './entities/brand.entity';
@@ -13,7 +12,6 @@ import { Brand } from './entities/brand.entity';
   providers: [ProductsService],
   imports: [
     TypeOrmModule.forFeature([Product, Category, ProductSpecs,Brand]),
-    // BrandModule
   ],
   exports: [
     TypeOrmModule

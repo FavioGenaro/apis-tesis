@@ -36,3 +36,37 @@ export const BRANDS = [
     "name": "Audio",
   }
 ]
+
+export const ADDRESS = [
+  {
+    "id": "11ecd49b-2120-47f9-9dbc-846a732b1750",
+    "street": "Central",
+    "city": "Lima",
+    "country": "Perú",
+    "zip": "64197",
+    "reference": "fdgnelihergi",
+    "is_default": true
+  },
+  {
+    "id": "9bda0179-9468-4157-a993-91a940b1e53d",
+    "street": "Proceres",
+    "city": "Lima",
+    "country": "Perú",
+    "zip": "98794",
+    "reference": "e23fwgt4334",
+    "is_default": false
+  }
+]
+
+export const CUSTOMER = [
+  {
+    "id": "11ecd49b-2120-47f9-9dbc-846a732b1749",
+    "first_name": "Central",
+    "last_name": "Lima",
+    "email": "avsdjo@gmail.com",
+    "phone": "64197",
+    "currency": "USD",
+    "password": "64197",
+    "id_default_address": "9bda0179-9468-4157-a993-91a940b1e53d"
+  }
+]
