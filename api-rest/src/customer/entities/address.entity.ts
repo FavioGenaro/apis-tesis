@@ -1,6 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-
-
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Customer } from "./customer.entity";
 @Entity('address')
 export class Address {
   @PrimaryGeneratedColumn('uuid')
@@ -26,6 +25,14 @@ export class Address {
     default: false
   })
   is_default: boolean;
+
+  @ManyToOne(
+    () => Customer,
+    ( customer ) => customer.addresses,
+    {  onDelete: 'CASCADE',  }
+  )
+  @JoinColumn({ name: 'id_customer' })
+  customer: Customer
 
   @CreateDateColumn()
   created_at: Date;

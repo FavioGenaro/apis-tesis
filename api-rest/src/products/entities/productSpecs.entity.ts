@@ -1,15 +1,15 @@
 import { Product } from "src/products/entities/product.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity()
 export class ProductSpecs {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid', {
-    nullable: true
-  })
-  id_product: string;
+  // @Column('uuid', {
+  //   nullable: true
+  // })
+  // id_product: string;
 
   @Column('text', {
     nullable: false
@@ -45,6 +45,7 @@ export class ProductSpecs {
     ( product ) => product.productSpecs, // propiedad de relación
     {  onDelete: 'CASCADE' } // se elimina en cascada cuando el producto se elimine
   )
+  @JoinColumn({ name: 'id_product' })
   product: Product
 
 }

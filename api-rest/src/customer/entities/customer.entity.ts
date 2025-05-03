@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Address } from "./address.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Address } from './address.entity';
 
 @Entity()
 export class Customer {
@@ -18,22 +18,22 @@ export class Customer {
   @Column({ type: 'varchar', length: 20, nullable: true })
   phone: string;
 
-  @Column({ type: 'char', length: 3, default: 'USD' })
-  currency: string;
+  // @Column({ type: 'char', length: 3, default: 'USD' })
+  // currency: string;
 
   @Column({ type: 'text', nullable: false })
   password: string; // Aquí se almacena el hash de la contraseña
 
-  // @OneToOne(
-  //   () => Address, 
-  //   { cascade: false, eager: true }
-  // )
-  // @JoinColumn()
-  // default_address: Address;
+  // @OneToOne(() => Address, (address) => address.id, { cascade: false, eager: true })
+  // @JoinColumn({ name: 'id_default_address' }) // campo que se guarda en la tabla `customers`
+  // default_address: Address | null;
 
-  @OneToOne(() => Address, (address) => address.id, { cascade: false, eager: true })
-  @JoinColumn({ name: 'id_default_address' }) // campo que se guarda en la tabla `customers`
-  default_address: Address | null;
+  @OneToMany(
+    () => Address,
+    (address) => address.customer,
+    { cascade: true, eager: true }
+  )
+  addresses: Address[];
 
   @CreateDateColumn()
   created_at: Date;

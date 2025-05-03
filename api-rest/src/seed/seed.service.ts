@@ -6,6 +6,7 @@ import { ADDRESS, BRANDS, CUSTOMER, PRODUCTS } from './data/seed-data';
 import { Brand } from 'src/products/entities/brand.entity';
 import { Address } from 'src/customer/entities/address.entity';
 import { Customer } from 'src/customer/entities/customer.entity';
+import { Category } from 'src/products/entities/category.entity';
 
 @Injectable()
 export class SeedService {
@@ -26,23 +27,23 @@ export class SeedService {
 
   async runSeed() {
 
-    await this.deleteAllProducts();
-    await this.deleteAllBrands();
+    await this.deleteAllTable(this.productRepository, 'product');
+    await this.deleteAllTable(this.brandRepository, 'brand');
     
     await this.insertBrands();
     await this.insertProducts();
 
-    await this.deleteAllAddress();
-    await this.insertAddress();
+    await this.deleteAllTable(this.addressRepository, 'address');
+    await this.deleteAllTable(this.customerRepository, 'customer');
 
-    await this.deleteAllCustomer();
     await this.insertCustomer();
+    await this.insertAddress();
 
     return 'SEED EXECUTED';
   }
 
-  async deleteAllProducts() {
-    const query = this.productRepository.createQueryBuilder('product');
+  async deleteAllTable(repositorio: Repository<any>, alias: string) {
+    const query = repositorio.createQueryBuilder(alias);
 
     try {
       return await query
@@ -63,27 +64,16 @@ export class SeedService {
 
     // creamos las instancias de cada entidad y las pasamos al arreglo
     products.forEach( product => {
+
       const entidad = this.productRepository.create({
-        ...product
+        ...product,
+        category: product.id_category !== "" ? ({ id: product.id_category } as Category) : null,
+        brand: { id: product.id_brand } as Brand
       }); 
       insertProduct.push(entidad);;
     });
 
     await this.productRepository.save(insertProduct);
-  }
-
-  async deleteAllBrands() {
-    const query = this.brandRepository.createQueryBuilder('brand');
-
-    try {
-      return await query
-        .delete()
-        .where({})
-        .execute();
-
-    } catch (error) {
-      throw (error);
-    }
   }
 
   async insertBrands() {
@@ -104,20 +94,6 @@ export class SeedService {
     await this.brandRepository.save(insertBrands);
   }
 
-  async deleteAllAddress() {
-    const query = this.addressRepository.createQueryBuilder('address');
-
-    try {
-      return await query
-        .delete()
-        .where({})
-        .execute();
-
-    } catch (error) {
-      throw (error);
-    }
-  }
-
   async insertAddress() {
     // Obtenemos los datos a insertar
     const address = ADDRESS;
@@ -133,26 +109,13 @@ export class SeedService {
         country: address.country,
         zip: address.zip,
         reference: address.reference,
-        is_default: false
+        is_default: false,
+        customer: { id: address.id_customer } as Customer,
       });
       insertAddress.push(entidad)
     });
 
     await this.addressRepository.save(insertAddress);
-  }
-
-  async deleteAllCustomer() {
-    const query = this.customerRepository.createQueryBuilder('customer');
-
-    try {
-      return await query
-        .delete()
-        .where({})
-        .execute();
-
-    } catch (error) {
-      throw (error);
-    }
   }
 
   async insertCustomer() {
@@ -169,13 +132,13 @@ export class SeedService {
         "last_name": customer.last_name,
         "email": customer.email,
         "phone": customer.phone,
-        "currency": customer.currency,
+        // "currency": customer.currency,
         "password": customer.password,
-        default_address: { id: customer.id_default_address } as Address,
+        // default_address: { id: customer.id_default_address } as Address,
       });
       insertCustomer.push(entidad)
 
-      console.log(entidad)
+      // console.log(entidad)
     });
 
     await this.customerRepository.save(insertCustomer);
