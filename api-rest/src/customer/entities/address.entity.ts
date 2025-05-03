@@ -17,14 +17,20 @@ export class Address {
   @Column({ type: 'char', length: 5 })
   zip: string;
 
-  @Column({type: 'text', nullable: true})
+  @Column({ type: 'text', nullable: true })
   reference: string;
 
-  @Column({
-    type: 'bool',
-    default: false
-  })
+  @Column({ type: 'boolean', default: false })
   is_default: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  is_eliminated: boolean;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   @ManyToOne(
     () => Customer,
@@ -33,10 +39,4 @@ export class Address {
   )
   @JoinColumn({ name: 'id_customer' })
   customer: Customer
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 }

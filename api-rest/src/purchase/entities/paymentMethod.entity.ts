@@ -1,13 +1,16 @@
-import { Product } from "src/products/entities/product.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-@Entity('category')
-export class Category {
+import { Payment } from "./payment.entity";
+@Entity()
+export class PaymentMethod {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
+
+  @Column({ type: 'text', nullable: false })
+  description: string;
 
   @Column({ type: 'boolean', default: false })
   is_eliminated: boolean;
@@ -19,10 +22,10 @@ export class Category {
   updated_at: Date;
 
   @OneToMany(
-    () => Product,
-    ( product ) => product.category, // ! CAMBIAR POR ID?
+    () => Payment,
+    ( payment ) => payment.payment_method,
     {  onDelete: 'CASCADE' }
   )
-  products: Product[]
+  payment: Payment[]
 
 }

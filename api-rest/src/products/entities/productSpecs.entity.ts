@@ -1,44 +1,25 @@
 import { Product } from "src/products/entities/product.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-@Entity()
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+@Entity('product_specs')
 export class ProductSpecs {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @Column('uuid', {
-  //   nullable: true
-  // })
-  // id_product: string;
-
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   name: string;
 
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   value: string;
 
-  @Column('boolean', {
-    default: true
-  })
-  is_active: boolean;
+  @Column({ type: 'boolean', default: false })
+  is_eliminated: boolean;
 
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  // @OneToMany(
-  //   () => Product,
-  //   ( product ) => product.id,
-  //   {  onDelete: 'CASCADE' }
-  // )
-  // product: Product
-
 
   @ManyToOne(
     () => Product,

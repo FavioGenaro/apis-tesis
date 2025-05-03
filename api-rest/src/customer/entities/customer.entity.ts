@@ -1,39 +1,29 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Address } from './address.entity';
+import { Purchase } from "src/purchase/entities/purchase.entity";
 
-@Entity()
+@Entity('customer')
 export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   first_name: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   last_name: string;
 
-  @Column({ type: 'varchar', length: 150, unique: true })
+  @Column({ type: 'varchar', length: 150, unique: true, nullable: false })
   email: string;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
   phone: string;
 
-  // @Column({ type: 'char', length: 3, default: 'USD' })
-  // currency: string;
-
   @Column({ type: 'text', nullable: false })
-  password: string; // Aquí se almacena el hash de la contraseña
+  password: string;
 
-  // @OneToOne(() => Address, (address) => address.id, { cascade: false, eager: true })
-  // @JoinColumn({ name: 'id_default_address' }) // campo que se guarda en la tabla `customers`
-  // default_address: Address | null;
-
-  @OneToMany(
-    () => Address,
-    (address) => address.customer,
-    { cascade: true, eager: true }
-  )
-  addresses: Address[];
+  @Column({ type: 'boolean', default: false })
+  is_eliminated: boolean;
 
   @CreateDateColumn()
   created_at: Date;
@@ -41,4 +31,17 @@ export class Customer {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @OneToMany(
+    () => Purchase,
+    ( purchase ) => purchase.customer,
+    { cascade: true, eager: true }
+  )
+  purchases: Purchase[]
+
+  @OneToMany(
+    () => Address,
+    (address) => address.customer,
+    { cascade: true, eager: true }
+  )
+  addresses: Address[];
 }

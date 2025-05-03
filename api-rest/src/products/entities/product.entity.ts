@@ -2,54 +2,47 @@ import { Category } from './category.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ProductSpecs } from "./productSpecs.entity";
 import { Brand } from './brand.entity';
+import { PurchaseDetail } from 'src/purchase/entities/purchaseDetail';
 
-@Entity()
+@Entity('product')
 export class Product {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text', {
-    unique: true
-  })
+  @Column({ type: 'varchar', length: 100, unique: true, nullable: false })
   sku: string;
 
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'varchar', length: 150, nullable: false })
   name: string;
 
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'text', nullable: false })
   description: string;
 
-  @Column('decimal', {
-    nullable: false
-  })
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
   price: number;
 
-  @Column('int', {
-    nullable: false
-  })
+  @Column({ type: 'int', nullable: false })
   stock: number;
 
   @Column({ type: 'char', length: 3, default: 'USD' })
   currency: string;
 
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'text', nullable: false })
   img_src: string;
 
-  @Column('boolean', {
-    default: true
-  })
-  is_active: boolean;
+  @Column({ type: 'boolean', default: false })
+  is_eliminated: boolean;
 
-  // Definimos un campo para la relación de 1 a muchos
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
   @ManyToOne(
     () => Brand,
-    (Brand) => Brand.id,
+    (Brand) => Brand.product,
     { cascade: false, eager: true }
   )
   @JoinColumn({ name: 'id_brand' })
@@ -57,7 +50,7 @@ export class Product {
 
   @ManyToOne(
     () => Category,
-    (Category) => Category.id,
+    (Category) => Category.products,
     { cascade: false, eager: true }
   )
   @JoinColumn({ name: 'id_category' })
@@ -69,10 +62,9 @@ export class Product {
     { cascade: true, eager: true }
   )
   productSpecs: ProductSpecs[]
-  
-  @CreateDateColumn()
-  created_at: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @OneToMany(() => PurchaseDetail, 
+    (purchaseDetail) => purchaseDetail.product // ! CAMBIAR POR ID?
+  )
+  purchaseDetail: PurchaseDetail[];
 }

@@ -1,20 +1,16 @@
 import { Product } from "src/products/entities/product.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-@Entity()
+@Entity('brand')
 export class Brand {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('text', {
-    nullable: false
-  })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
 
-  @Column('boolean', {
-    default: true
-  })
-  is_active: boolean;
+  @Column({ type: 'boolean', default: false })
+  is_eliminated: boolean;
 
   @CreateDateColumn()
   created_at: Date;
@@ -27,7 +23,6 @@ export class Brand {
     ( product ) => product.brand,
     {  onDelete: 'CASCADE' }
   )
-  // @JoinColumn({ name: 'id' })
   product: Product[]
 
 }
