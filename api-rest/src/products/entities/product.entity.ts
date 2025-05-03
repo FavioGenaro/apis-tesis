@@ -61,7 +61,7 @@ export class Product {
     { cascade: false, eager: true }
   )
   @JoinColumn({ name: 'id_category' })
-  category: Category | null; // !CAMBIAR
+  category: Category;
   
   @OneToMany(
     () => ProductSpecs,

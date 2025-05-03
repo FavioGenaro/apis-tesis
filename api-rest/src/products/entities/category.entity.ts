@@ -27,6 +27,6 @@ export class Category {
     ( product ) => product.id,
     {  onDelete: 'CASCADE' }
   )
-  product: Product
+  product: Product[]
 
 }

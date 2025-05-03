@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Repository } from 'typeorm';
-import { ADDRESS, BRANDS, CUSTOMER, PRODUCTS } from './data/seed-data';
+import { ADDRESS, BRANDS, CATEGORIES, CUSTOMER, PRODUCTS, PRODUCTSPECS } from './data/seed-data';
 import { Brand } from 'src/products/entities/brand.entity';
 import { Address } from 'src/customer/entities/address.entity';
 import { Customer } from 'src/customer/entities/customer.entity';
 import { Category } from 'src/products/entities/category.entity';
+import { ProductSpecs } from 'src/products/entities/productSpecs.entity';
 
 @Injectable()
 export class SeedService {
@@ -23,15 +24,25 @@ export class SeedService {
 
     @InjectRepository(Customer)
     private readonly customerRepository: Repository<Customer>,
+
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+
+    @InjectRepository(ProductSpecs)
+    private readonly productSpecRepository: Repository<ProductSpecs>,
   ) {}
 
   async runSeed() {
 
+    await this.deleteAllTable(this.productSpecRepository, 'productSpecs');
     await this.deleteAllTable(this.productRepository, 'product');
     await this.deleteAllTable(this.brandRepository, 'brand');
+    await this.deleteAllTable(this.categoryRepository, 'category');
     
     await this.insertBrands();
+    await this.insertCategory();
     await this.insertProducts();
+    await this.insertSpecs();
 
     await this.deleteAllTable(this.addressRepository, 'address');
     await this.deleteAllTable(this.customerRepository, 'customer');
@@ -67,7 +78,7 @@ export class SeedService {
 
       const entidad = this.productRepository.create({
         ...product,
-        category: product.id_category !== "" ? ({ id: product.id_category } as Category) : null,
+        category: { id: product.id_category } as Category,
         brand: { id: product.id_brand } as Brand
       }); 
       insertProduct.push(entidad);;
@@ -92,6 +103,44 @@ export class SeedService {
     });
 
     await this.brandRepository.save(insertBrands);
+  }
+
+  async insertSpecs() {
+    // Obtenemos los datos a insertar
+    const specs = PRODUCTSPECS;
+
+    const insertBrands:ProductSpecs[] = []
+
+    // creamos las instancias de cada entidad y las pasamos al arreglo
+    specs.forEach( spec => {
+      const entidad = this.productSpecRepository.create({
+        // id: spec.id,
+        name: spec.name,
+        value: spec.value,
+        product: { id: spec.id_product } as Product
+      });
+      insertBrands.push(entidad)
+    });
+
+    await this.productSpecRepository.save(insertBrands);
+  }
+
+  async insertCategory() {
+    // Obtenemos los datos a insertar
+    const categories = CATEGORIES;
+
+    const insertCategories: Category[] = []
+
+    // creamos las instancias de cada entidad y las pasamos al arreglo
+    categories.forEach( categorie => {
+      const entidad = this.categoryRepository.create({
+        id: categorie.id,
+        name: categorie.name
+      });
+      insertCategories.push(entidad)
+    });
+
+    await this.categoryRepository.save(insertCategories);
   }
 
   async insertAddress() {

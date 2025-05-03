@@ -1,8 +1,8 @@
-
+/******************** MODULO DE PRODUCTOS ***********************/
 export const PRODUCTS = [
   {
       "id": "11ecd49b-2120-47f9-9dac-846a732b1790",
-      "id_category": "",
+      "id_category": "11ecd49b-2120-47f9-9dac-846a732b1780",
       "id_brand": "11ecd49b-2120-47f9-9dac-846a732b1750",
       "sku": "Nuevo1",
       "name": "Nuevo1",
@@ -15,7 +15,7 @@ export const PRODUCTS = [
   },
   {
       "id": "959d154f-8388-4368-a8c0-8f6ab09e798b",
-      "id_category": "",
+      "id_category": "11ecd49b-2120-47f9-9dac-846a732b1780",
       "id_brand": "9bda0179-9468-4157-a982-91a940b1e53d",
       "sku": "Nuevo2",
       "name": "Nuevo2",
@@ -49,6 +49,27 @@ export const CATEGORIES = [
     "name": "Audio",
   }
 ]
+
+export const PRODUCTSPECS = [
+  {
+    id_product: "11ecd49b-2120-47f9-9dac-846a732b1790",
+    name: 'peso',
+    value: '3.2 kg',
+  },
+  {
+    id_product: "11ecd49b-2120-47f9-9dac-846a732b1790",
+    name: 'color',
+    value: 'Negro',
+  },
+  {
+    id_product: "959d154f-8388-4368-a8c0-8f6ab09e798b",
+    name: 'dimensiones',
+    value: '20x10x5 cm',
+  },
+];
+
+
+/******************** MODULO DE CLIENTES ***********************/
 
 export const ADDRESS = [
   {

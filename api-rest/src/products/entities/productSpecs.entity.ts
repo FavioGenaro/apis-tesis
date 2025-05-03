@@ -14,7 +14,7 @@ export class ProductSpecs {
   @Column('text', {
     nullable: false
   })
-  key: string;
+  name: string;
 
   @Column('text', {
     nullable: false
@@ -39,11 +39,11 @@ export class ProductSpecs {
   // )
   // product: Product
 
-  // muchas imagenes pueden estar relacionada a un producto
+
   @ManyToOne(
-    () => Product, // retorna la entidad producto
-    ( product ) => product.productSpecs, // propiedad de relación
-    {  onDelete: 'CASCADE' } // se elimina en cascada cuando el producto se elimine
+    () => Product,
+    ( product ) => product.productSpecs,
+    {  onDelete: 'CASCADE' }
   )
   @JoinColumn({ name: 'id_product' })
   product: Product

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,31 +15,13 @@ export class ProductsService {
 
   async create(createProductDto: CreateProductDto) {
 
-    // const {sku, name, description, id_brand } = createProductDto;
-
     const product = this.productRepository.create({
       ...createProductDto
     });
 
     const saved = await this.productRepository.save( product );
 
-
     return this.findOne(saved.id)
-    // return await this.productRepository.findOne({
-    //   where: { id: saved.id },
-    //   relations: {
-    //     brand: true
-    //   },
-    //   // select: {
-    //   //   id: true,
-    //   //   name: true,
-
-    //   //   brand: {
-    //   //     id: true,
-    //   //     name: true,
-    //   //   },
-    //   // },
-    // });
   }
 
   async findAll() {
@@ -49,14 +31,14 @@ export class ProductsService {
   }
 
   async findOne(id: string) {
-    return await this.productRepository.findOneBy({
-      id
-      // where: { id: id }
-      // ,
-      // relations: {
-      //   brand: true
-      // },
-    });
+
+    const product = await this.productRepository.findOneBy({id});
+
+    if(!product) {
+      throw new NotFoundException(`Producto no encontrado`);
+    }
+
+    return await this.productRepository.findOneBy({id});
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
