@@ -2,12 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { Repository } from 'typeorm';
-import { ADDRESS, BRANDS, CATEGORIES, CUSTOMER, PRODUCTS, PRODUCTSPECS } from './data/seed-data';
+import { ADDRESS, BRANDS, CATEGORIES, CUSTOMER, PAYMENTMETHODS, PAYMENTS, PRODUCTS, PRODUCTSPECS, PURCHARSES, PURCHARSESDETAIL, STATUS } from './data/seed-data';
 import { Brand } from 'src/products/entities/brand.entity';
 import { Address } from 'src/customer/entities/address.entity';
 import { Customer } from 'src/customer/entities/customer.entity';
 import { Category } from 'src/products/entities/category.entity';
 import { ProductSpecs } from 'src/products/entities/productSpecs.entity';
+import { Status } from 'src/purchase/entities/status.entity';
+import { PaymentMethod } from '../purchase/entities/paymentMethod.entity';
+import { Purchase } from 'src/purchase/entities/purchase.entity';
+import { Payment } from 'src/purchase/entities/payment.entity';
+import { PurchaseDetail } from 'src/purchase/entities/purchaseDetail';
 
 @Injectable()
 export class SeedService {
@@ -30,6 +35,21 @@ export class SeedService {
 
     @InjectRepository(ProductSpecs)
     private readonly productSpecRepository: Repository<ProductSpecs>,
+
+    @InjectRepository(Status)
+    private readonly statusRepository: Repository<Status>,
+    
+    @InjectRepository(Purchase)
+    private readonly purchaseRepository: Repository<Purchase>,
+
+    @InjectRepository(Payment)
+    private readonly paymentRepository: Repository<Payment>,
+
+    @InjectRepository(PaymentMethod)
+    private readonly paymentMethodRepository: Repository<PaymentMethod>,
+
+    @InjectRepository(PurchaseDetail)
+    private readonly purchaseDetailRepository: Repository<PurchaseDetail>,
   ) {}
 
   async runSeed() {
@@ -46,9 +66,21 @@ export class SeedService {
 
     await this.deleteAllTable(this.addressRepository, 'address');
     await this.deleteAllTable(this.customerRepository, 'customer');
-
     await this.insertCustomer();
     await this.insertAddress();
+
+    await this.deleteAllTable(this.statusRepository, 'status');
+    await this.deleteAllTable(this.paymentMethodRepository, 'payment_method');
+    await this.insertStatus();
+    await this.insertPaymentMethod();
+
+    await this.deleteAllTable(this.purchaseDetailRepository, 'purchase_detail');
+    await this.deleteAllTable(this.purchaseRepository, 'purchase');
+    await this.deleteAllTable(this.paymentRepository, 'payment');
+
+    await this.insertPurchase()
+    await this.insertPurchaseDetail()
+    await this.insertPayment()
 
     return 'SEED EXECUTED';
   }
@@ -68,7 +100,7 @@ export class SeedService {
   }
 
   async insertProducts() {
-    // Obtenemos los datos a insertar
+
     const products = PRODUCTS;
 
     const insertProduct:Product[] = []
@@ -106,7 +138,7 @@ export class SeedService {
   }
 
   async insertSpecs() {
-    // Obtenemos los datos a insertar
+
     const specs = PRODUCTSPECS;
 
     const insertBrands:ProductSpecs[] = []
@@ -114,7 +146,6 @@ export class SeedService {
     // creamos las instancias de cada entidad y las pasamos al arreglo
     specs.forEach( spec => {
       const entidad = this.productSpecRepository.create({
-        // id: spec.id,
         name: spec.name,
         value: spec.value,
         product: { id: spec.id_product } as Product
@@ -126,7 +157,7 @@ export class SeedService {
   }
 
   async insertCategory() {
-    // Obtenemos los datos a insertar
+
     const categories = CATEGORIES;
 
     const insertCategories: Category[] = []
@@ -144,7 +175,7 @@ export class SeedService {
   }
 
   async insertAddress() {
-    // Obtenemos los datos a insertar
+    
     const address = ADDRESS;
 
     const insertAddress:Address[] = []
@@ -168,7 +199,7 @@ export class SeedService {
   }
 
   async insertCustomer() {
-    // Obtenemos los datos a insertar
+
     const customers = CUSTOMER;
 
     const insertCustomer:Customer[] = []
@@ -181,16 +212,109 @@ export class SeedService {
         "last_name": customer.last_name,
         "email": customer.email,
         "phone": customer.phone,
-        // "currency": customer.currency,
         "password": customer.password,
-        // default_address: { id: customer.id_default_address } as Address,
       });
       insertCustomer.push(entidad)
-
-      // console.log(entidad)
     });
 
     await this.customerRepository.save(insertCustomer);
+  }
+
+  async insertStatus() {
+
+    const status = STATUS;
+
+    const insertStatus: Status[] = []
+
+    status.forEach( async (status) => {
+      const entidad = this.statusRepository.create({
+        id: status.id,
+        name: status.name,
+        type: status.type
+      });
+      insertStatus.push(entidad)
+    });
+
+    await this.statusRepository.save(insertStatus);
+  }
+
+  async insertPaymentMethod() {
+
+    const paymentMethod = PAYMENTMETHODS;
+
+    const insertPaymentMethod: PaymentMethod[] = []
+
+    paymentMethod.forEach( async (paymentMethod) => {
+      const entidad = this.paymentMethodRepository.create({
+        id: paymentMethod.id,
+        name: paymentMethod.name,
+        description: paymentMethod.description
+      });
+      insertPaymentMethod.push(entidad)
+    });
+
+    await this.paymentMethodRepository.save(insertPaymentMethod);
+  }
+
+  async insertPurchase() {
+
+    const purchases = PURCHARSES;
+
+    const insertPurchase: Purchase[] = []
+
+    purchases.forEach( async (purchase) => {
+      const entidad = this.purchaseRepository.create({
+        id: purchase.id,
+        currency: purchase.currency,
+        total_cost: purchase.total_cost,
+        status: { id: purchase.id_status } as Status,
+        customer: { id: purchase.id_customer } as Customer
+      });
+      insertPurchase.push(entidad)
+    });
+
+    await this.purchaseRepository.save(insertPurchase);
+  }
+
+  async insertPurchaseDetail() {
+
+    const purchasesDetail = PURCHARSESDETAIL;
+
+    const insertPurchasesDetail: PurchaseDetail[] = []
+
+    purchasesDetail.forEach( async (purchaseDetail) => {
+      const entidad = this.purchaseDetailRepository.create({
+        id: purchaseDetail.id,
+        quantity: purchaseDetail.quantity,
+        sale_price: purchaseDetail.sale_price,
+        product: { id: purchaseDetail.id_product } as Product,
+        purchase: { id: purchaseDetail.id_purchase } as Purchase
+      });
+      insertPurchasesDetail.push(entidad)
+    });
+
+    await this.purchaseDetailRepository.save(insertPurchasesDetail);
+  }
+
+  async insertPayment() {
+
+    const payments = PAYMENTS;
+
+    const insertPayments: Payment[] = []
+
+    payments.forEach( async (payment) => {
+      const entidad = this.paymentRepository.create({
+        id: payment.id,
+        currency: payment.currency,
+        amount: payment.amount,
+        payment_method: { id: payment.id_payment_method } as PaymentMethod,
+        status: { id: payment.id_status } as Status,
+        purchase: { id: payment.id_purchase } as Purchase
+      });
+      insertPayments.push(entidad)
+    });
+
+    await this.paymentRepository.save(insertPayments);
   }
 
 }

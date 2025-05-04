@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Payment } from "./payment.entity";
-@Entity()
+@Entity('payment_method')
 export class PaymentMethod {
 
   @PrimaryGeneratedColumn('uuid')
@@ -9,8 +9,8 @@ export class PaymentMethod {
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
 
-  @Column({ type: 'text', nullable: false })
-  description: string;
+  @Column({ type: 'text', nullable: true })
+  description: string | null;
 
   @Column({ type: 'boolean', default: false })
   is_eliminated: boolean;
