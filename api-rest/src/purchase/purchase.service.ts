@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+// import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Purchase } from './entities/purchase.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PurchaseService {
-  create(createPurchaseDto: CreatePurchaseDto) {
-    return 'This action adds a new purchase';
+
+  constructor(
+    @InjectRepository(Purchase)
+    private readonly purchaseRepository: Repository<Purchase>,
+  ) {}
+
+  async create(createPurchaseDto: CreatePurchaseDto) {
+    // const purchase = this.purchaseRepository.create({
+    //   ...createPurchaseDto
+    // });
+
+    // const saved = await this.purchaseRepository.save( purchase );
+
+    // return this.findOne(saved.id)
   }
 
-  findAll() {
-    return `This action returns all purchase`;
+  async findAll() {
+    const purchases = await this.purchaseRepository.find();
+
+    return purchases;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} purchase`;
+  async findOne(id: string) {
+    const purchase = await this.purchaseRepository.findOneBy({id});
+        
+    if(!purchase) {
+      throw new NotFoundException(`Compra ${id} no encontrada`);
+    }
+
+    return purchase;
   }
 
-  update(id: number, updatePurchaseDto: UpdatePurchaseDto) {
-    return `This action updates a #${id} purchase`;
-  }
+  // update(id: number, updatePurchaseDto: UpdatePurchaseDto) {
+  //   return `This action updates a #${id} purchase`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} purchase`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} purchase`;
+  // }
 }

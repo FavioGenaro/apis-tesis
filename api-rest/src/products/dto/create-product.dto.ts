@@ -1,10 +1,12 @@
-import { IsString, MinLength } from "class-validator";
+import { IsDecimal, IsNumber, IsString, IsUrl, IsUUID, MinLength } from "class-validator";
 
 export class CreateProductDto {
 
-  // @IsString()
-  // @MinLength(1) // debe ser al menos un caracter
-  // title: string;
+  @IsUUID()
+  id_category: string;
+
+  @IsUUID()
+  id_brand: string;
 
   @IsString()
   @MinLength(1)
@@ -16,7 +18,22 @@ export class CreateProductDto {
   @IsString()
   description: string;
 
+  @IsDecimal({
+    decimal_digits: '2'
+  })
+  price: number;
+
+  @IsNumber({
+    maxDecimalPlaces: 0
+  })
+  stock: number;
+
   @IsString()
-  id_brand: string;
+  @MinLength(3)
+  currency: string;
+
+  @IsString()
+  @IsUrl()
+  img_src: string;
 
 }
