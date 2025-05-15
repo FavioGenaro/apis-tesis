@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Address } from './address.entity';
 
 @ObjectType()
 export class Customer {
@@ -39,5 +40,12 @@ export class Customer {
   @UpdateDateColumn()
   @Field(() => Date)
   updated_at: Date;
+
+  @OneToMany(
+    () => Address,
+    (address) => address.customer,
+    { cascade: true, eager: true }
+  )
+  addresses: Address[];
 
 }

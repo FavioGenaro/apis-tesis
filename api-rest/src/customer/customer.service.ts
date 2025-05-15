@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,10 +14,15 @@ export class CustomerService {
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    const { password, ...data } = createCustomerDto;
+    const { password, email, ...data } = createCustomerDto;
+
+    const user = await this.customerRepository.findOneBy({email});
+
+    if(user) throw new ConflictException(`Correo ya esta registrado`);
 
     const customer = this.customerRepository.create({
       ...data,
+      email,
       password: bcrypt.hashSync( password, 10 )
     });
 

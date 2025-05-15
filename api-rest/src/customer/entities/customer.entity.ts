@@ -34,7 +34,7 @@ export class Customer {
   @OneToMany(
     () => Purchase,
     ( purchase ) => purchase.customer,
-    { cascade: true, eager: true }
+    {  onDelete: 'CASCADE' }
   )
   purchases: Purchase[]
 

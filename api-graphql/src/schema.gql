@@ -60,13 +60,19 @@ input UpdateProductInput {
 }
 
 input CreateCustomerInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  first_name: String!
+  last_name: String!
+  email: String!
+  password: String!
+  phone: String!
 }
 
 input UpdateCustomerInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  first_name: String
+  last_name: String
+  email: String
+  password: String
+  phone: String
   id: Int!
 }
 
