@@ -64,7 +64,7 @@ export class Product {
   productSpecs: ProductSpecs[]
 
   @OneToMany(() => PurchaseDetail, 
-    (purchaseDetail) => purchaseDetail.product // ! CAMBIAR POR ID?
+    (purchaseDetail) => purchaseDetail.product
   )
   purchaseDetail: PurchaseDetail[];
 }

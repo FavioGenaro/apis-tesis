@@ -1,4 +1,6 @@
-import { IsDecimal, IsNumber, IsString, IsUrl, IsUUID, MinLength } from "class-validator";
+import { Type } from "class-transformer";
+import { ArrayMinSize, IsDecimal, IsNumber, IsString, IsUrl, IsUUID, MaxLength, MinLength, ValidateNested } from "class-validator";
+import { CreateProductSpecDto } from "./create-productSpecs.dto";
 
 export class CreateProductDto {
 
@@ -13,9 +15,11 @@ export class CreateProductDto {
   sku: string;
 
   @IsString()
+  @MinLength(1)
   name: string;
 
   @IsString()
+  @MinLength(1)
   description: string;
 
   @IsDecimal({
@@ -30,10 +34,16 @@ export class CreateProductDto {
 
   @IsString()
   @MinLength(3)
+  @MaxLength(3)
   currency: string;
 
   @IsString()
   @IsUrl()
   img_src: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => CreateProductSpecDto)
+  @ArrayMinSize(1)
+  productSpecs: CreateProductSpecDto[];
 
 }

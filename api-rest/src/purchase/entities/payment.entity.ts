@@ -36,7 +36,7 @@ export class Payment {
 
   @ManyToOne(
     () => Purchase,
-    (purchase) => purchase.payments, // ! CAMBIAR POR ID?
+    (purchase) => purchase.payments,
     {  onDelete: 'CASCADE' }
   )
   @JoinColumn({ name: 'id_purchase' })

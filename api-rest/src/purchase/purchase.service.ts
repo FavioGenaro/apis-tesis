@@ -14,13 +14,28 @@ export class PurchaseService {
   ) {}
 
   async create(createPurchaseDto: CreatePurchaseDto) {
-    // const purchase = this.purchaseRepository.create({
-    //   ...createPurchaseDto
-    // });
+    const { id_status, id_customer, payments, purchaseDetail } = createPurchaseDto;
 
-    // const saved = await this.purchaseRepository.save( purchase );
+    const purchase = this.purchaseRepository.create({
+      ...createPurchaseDto,
+      status: {id: id_status},
+      customer: {id: id_customer},
+      payments: payments.map(payment => ({ 
+        amount: payment.amount,
+        currency: payment.currency,
+        status: {id: payment.id_status},
+        payment_method: {id: payment.id_payment_method},
+      })),
+      purchaseDetail: purchaseDetail.map(detail => ({
+        quantity: detail.quantity,
+        sale_price: detail.sale_price,
+        product: {id: detail.id_product}
+      }))
+    });
 
-    // return this.findOne(saved.id)
+    const saved = await this.purchaseRepository.save( purchase );
+
+    return this.findOne(saved.id)
   }
 
   async findAll() {

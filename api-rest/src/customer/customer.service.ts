@@ -13,7 +13,7 @@ export class CustomerService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+  async create(createCustomerDto: CreateCustomerDto) {
     const { password, email, ...data } = createCustomerDto;
 
     const user = await this.customerRepository.findOneBy({email});
@@ -39,12 +39,14 @@ export class CustomerService {
 
   async findOne(id: string) {
     const customer = await this.customerRepository.findOneBy({id});
-    
+
     if(!customer) {
       throw new NotFoundException(`Cliente ${id} no encontrado`);
     }
 
-    return customer;
+    const { password, ...data } = customer;
+
+    return data;
   }
 
   // update(id: number, updateCustomerDto: UpdateCustomerDto) {

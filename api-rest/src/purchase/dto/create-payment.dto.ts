@@ -1,4 +1,4 @@
-import { IsDecimal, IsString, IsUUID, MinLength } from "class-validator";
+import { IsDecimal, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
 
 export class CreatePaymentDto {
   
@@ -7,9 +7,6 @@ export class CreatePaymentDto {
 
   @IsUUID()
   id_payment_method: string;
-
-  // @IsUUID()
-  // id_purchase: string;
   
   @IsDecimal({
     decimal_digits: '2'
@@ -18,6 +15,7 @@ export class CreatePaymentDto {
 
   @IsString()
   @MinLength(3)
+  @MaxLength(3)
   currency: string;
 
 }

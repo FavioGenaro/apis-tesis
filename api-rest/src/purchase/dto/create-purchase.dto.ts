@@ -25,7 +25,6 @@ export class CreatePurchaseDto {
   @ArrayMinSize(1)
   payments: CreatePaymentDto[];
 
-
   @ValidateNested({ each: true })
   @Type(() => CreatePurchaseDetailDto)
   @ArrayMinSize(1)

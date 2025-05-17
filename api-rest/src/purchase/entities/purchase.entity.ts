@@ -25,13 +25,8 @@ export class Purchase {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(
-    () => Status,
-    (status) => status.purchases,
-    { cascade: false, eager: true }
-  )
-  @JoinColumn({ name: 'id_status' })
-  status: Status;
+  @Column({ type: 'uuid', nullable: true})
+  id_customer: string;
 
   @ManyToOne(
     () => Customer,
@@ -41,6 +36,14 @@ export class Purchase {
   @JoinColumn({ name: 'id_customer' })
   customer: Customer;
 
+  @ManyToOne(
+    () => Status,
+    (status) => status.purchases,
+    { cascade: false, eager: true }
+  )
+  @JoinColumn({ name: 'id_status' })
+  status: Status;
+
   @OneToMany(
     () => Payment,
     (payment) => payment.purchase,
@@ -49,7 +52,8 @@ export class Purchase {
   payments: Payment[];
 
   @OneToMany(() => PurchaseDetail, 
-    (purchaseDetail) => purchaseDetail.purchase // ! CAMBIAR POR ID?
+    (purchaseDetail) => purchaseDetail.purchase,
+    { cascade: true, eager: true }
   )
   purchaseDetail: PurchaseDetail[];
 }

@@ -1,9 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsString, MaxLength } from "class-validator";
 
 export class CreateAddressDto {
-  
-  // @IsUUID()
-  // id_customer: string;
 
   @IsString()
   street: string;

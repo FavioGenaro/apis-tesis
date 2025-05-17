@@ -5,8 +5,8 @@ export class CreatePurchaseDetailDto {
   @IsUUID()
   id_product: string;
 
-  @IsUUID()
-  id_purchase: string;
+  // @IsUUID()
+  // id_purchase: string;
 
   @IsDecimal({
     decimal_digits: '2'
