@@ -13,10 +13,10 @@ export class PurchaseService {
   ) {}
 
   async create(createPurchaseDto: CreatePurchaseDto) {
-    const { id_status, id_customer, payments, purchaseDetail } = createPurchaseDto;
+    const { id_status, id_customer, payments, purchaseDetail, ...data } = createPurchaseDto;
 
     const purchase = this.purchaseRepository.create({
-      ...createPurchaseDto,
+      ...data,
       status: {id: id_status},
       customer: {id: id_customer},
       payments: payments.map(payment => ({ 

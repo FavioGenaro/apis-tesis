@@ -25,7 +25,7 @@ export class Purchase {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ type: 'uuid', nullable: true})
+  @Column({ type: 'uuid'})
   id_customer: string;
 
   @ManyToOne(

@@ -23,7 +23,7 @@ export class PurchaseDetail {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ type: 'uuid', nullable: true})
+  @Column({ type: 'uuid'})
   id_product: number;
 
   @ManyToOne(

@@ -32,16 +32,16 @@ export class Customer {
   updated_at: Date;
 
   @OneToMany(
-    () => Purchase,
-    ( purchase ) => purchase.customer,
-    {  onDelete: 'CASCADE' }
-  )
-  purchases: Purchase[]
-
-  @OneToMany(
     () => Address,
     (address) => address.customer,
     { cascade: true, eager: true }
   )
   addresses: Address[];
+
+  @OneToMany(
+    () => Purchase,
+    ( purchase ) => purchase.customer,
+    {  onDelete: 'CASCADE' }
+  )
+  purchases: Purchase[]
 }
