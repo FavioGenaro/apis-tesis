@@ -1,13 +1,14 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, CreateDateColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Address } from './address.entity';
 
 @ObjectType()
+@Entity('customer')
 export class Customer {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 100, nullable: false })
   @Field(() => String)
@@ -26,7 +27,6 @@ export class Customer {
   phone: string;
 
   @Column({ type: 'text', nullable: false })
-  @Field(() => String)
   password: string;
 
   @Column({ type: 'boolean', default: false })
@@ -46,6 +46,7 @@ export class Customer {
     (address) => address.customer,
     { cascade: true, eager: true }
   )
+  @Field(() => [Address])
   addresses: Address[];
 
 }

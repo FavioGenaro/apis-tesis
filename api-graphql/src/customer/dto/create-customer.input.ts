@@ -1,5 +1,7 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString, MinLength } from 'class-validator';
+import { InputType, Field } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
+import { ArrayMinSize, IsEmail, IsNotEmpty, IsPhoneNumber, IsString, MinLength, ValidateNested } from 'class-validator';
+import { CreateAddressDto } from './create-address.dto';
 
 @InputType()
 export class CreateCustomerInput {
@@ -19,11 +21,18 @@ export class CreateCustomerInput {
   email: string;
 
   @Field( () => String )
-  @MinLength(6)
   @IsString()
+  @MinLength(6)
   password: string;
 
   @Field( () => String )
   @IsPhoneNumber()
   phone: string;
+
+  @Field( () => [CreateAddressDto] )
+  @ValidateNested({ each: true })
+  @Type(() => CreateAddressDto)
+  @ArrayMinSize(1)
+  addresses: CreateAddressDto[];
+
 }

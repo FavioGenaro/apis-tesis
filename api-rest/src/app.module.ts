@@ -19,7 +19,6 @@ import { PurchaseModule } from './purchase/purchase.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    // BrandModule,
     ProductsModule,
     SeedModule,
     CustomerModule,

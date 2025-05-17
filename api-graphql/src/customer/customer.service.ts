@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCustomerInput } from './dto/create-customer.input';
-import { UpdateCustomerInput } from './dto/update-customer.input';
 import { Customer } from './entities/customer.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class CustomerService {
@@ -13,8 +13,22 @@ export class CustomerService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  create(createCustomerInput: CreateCustomerInput) {
-    return 'This action adds a new customer';
+  async create(createCustomerInput: CreateCustomerInput) {
+    const { password, email, ...data } = createCustomerInput;
+
+    const user = await this.customerRepository.findOneBy({email});
+
+    if(user) throw new ConflictException(`Correo ya esta registrado`);
+
+    const customer = this.customerRepository.create({
+      ...data,
+      email,
+      password: bcrypt.hashSync( password, 10 )
+    });
+
+    const saved = await this.customerRepository.save( customer );
+
+    return this.findOne(saved.id)
   }
 
   async findAll() {
@@ -23,15 +37,16 @@ export class CustomerService {
     return customers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  async findOne(id: string) {
+    const customer = await this.customerRepository.findOneBy({id});
+
+    if(!customer) {
+      throw new NotFoundException(`Cliente ${id} no encontrado`);
+    }
+
+    const { password, ...data } = customer;
+
+    return data;
   }
 
-  update(id: number, updateCustomerInput: UpdateCustomerInput) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
-  }
 }

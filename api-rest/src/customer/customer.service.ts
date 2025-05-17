@@ -46,7 +46,7 @@ export class CustomerService {
 
     const { password, ...data } = customer;
 
-    return data;
+    return {data: { customer: data }};
   }
   
 }

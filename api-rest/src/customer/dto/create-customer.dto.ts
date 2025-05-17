@@ -26,4 +26,5 @@ export class CreateCustomerDto {
   @Type(() => CreateAddressDto)
   @ArrayMinSize(1)
   addresses: CreateAddressDto[];
+  
 }
