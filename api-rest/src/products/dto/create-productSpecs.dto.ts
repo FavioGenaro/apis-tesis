@@ -1,13 +1,13 @@
-import { IsString, MinLength } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateProductSpecDto {
 
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   name: string;
 
   @IsString()
-  @MinLength(1)
+  @IsNotEmpty()
   value: string;
 
 }

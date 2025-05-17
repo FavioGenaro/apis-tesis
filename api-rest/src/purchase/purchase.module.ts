@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
 import { PaymentMethod } from './entities/paymentMethod.entity';
 import { Status } from './entities/status.entity';
-import { ProductsModule } from 'src/products/products.module';
 import { Purchase } from './entities/purchase.entity';
 import { PurchaseDetail } from './entities/purchaseDetail';
 

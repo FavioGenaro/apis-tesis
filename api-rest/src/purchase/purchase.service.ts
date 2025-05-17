@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
-// import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Purchase } from './entities/purchase.entity';
 import { Repository } from 'typeorm';
@@ -53,12 +52,4 @@ export class PurchaseService {
 
     return purchase;
   }
-
-  // update(id: number, updatePurchaseDto: UpdatePurchaseDto) {
-  //   return `This action updates a #${id} purchase`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} purchase`;
-  // }
 }

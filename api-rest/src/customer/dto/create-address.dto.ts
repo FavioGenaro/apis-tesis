@@ -1,21 +1,24 @@
-import { IsBoolean, IsNotEmpty, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString, Length, MaxLength } from "class-validator";
 
 export class CreateAddressDto {
 
   @IsString()
+  @IsNotEmpty()
   street: string;
 
   @IsString()
+  @IsNotEmpty()
   city: string;
 
   @IsString()
+  @IsNotEmpty()
   country: string;
 
-  @MaxLength(5)
-  @IsNotEmpty()
+  @Length(5,5)
   zip: string;
 
   @IsString()
+  @IsNotEmpty()
   reference: string;
 
   @IsBoolean()

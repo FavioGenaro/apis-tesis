@@ -1,4 +1,4 @@
-import { IsDecimal, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
+import { IsDecimal, IsUUID, Length } from "class-validator";
 
 export class CreatePaymentDto {
   
@@ -13,9 +13,7 @@ export class CreatePaymentDto {
   })
   amount: number;
 
-  @IsString()
-  @MinLength(3)
-  @MaxLength(3)
+  @Length(3,3)
   currency: string;
 
 }

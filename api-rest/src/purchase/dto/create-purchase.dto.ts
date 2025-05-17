@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayMinSize, IsDecimal, IsNumber, IsString, IsUUID, MinLength, ValidateNested } from "class-validator";
+import { ArrayMinSize, IsDecimal, IsUUID, Length, ValidateNested } from "class-validator";
 import { CreatePaymentDto } from "./create-payment.dto";
 import { CreatePurchaseDetailDto } from "./create-purchase-detail.dto";
 
@@ -16,8 +16,7 @@ export class CreatePurchaseDto {
   })
   total_cost: number;
 
-  @IsString()
-  @MinLength(3)
+  @Length(3,3)
   currency: string;
 
   @ValidateNested({ each: true })

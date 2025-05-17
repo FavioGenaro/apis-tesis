@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { BrandModule } from './brand/brand.module';
 import { ProductsModule } from './products/products.module';
 import { SeedModule } from './seed/seed.module';
 import { CustomerModule } from './customer/customer.module';
