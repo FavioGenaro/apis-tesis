@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePurchaseInput } from './dto/create-purchase.input';
-import { UpdatePurchaseInput } from './dto/update-purchase.input';
+import { Purchase } from './entities/purchase.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PurchaseService {
-  create(createPurchaseInput: CreatePurchaseInput) {
-    return 'This action adds a new purchase';
+
+  constructor(
+    @InjectRepository(Purchase)
+    private readonly purchaseRepository: Repository<Purchase>,
+  ) {}
+
+  async create(createPurchaseInput: CreatePurchaseInput) {
+    const { id_status, id_customer, payments, purchaseDetail, ...data } = createPurchaseInput;
+
+    const purchase = this.purchaseRepository.create({
+      ...data,
+      status: {id: id_status},
+      customer: {id: id_customer},
+      payments: payments.map(payment => ({ 
+        amount: payment.amount,
+        currency: payment.currency,
+        status: {id: payment.id_status},
+        payment_method: {id: payment.id_payment_method},
+      })),
+      purchaseDetail: purchaseDetail.map(detail => ({
+        quantity: detail.quantity,
+        sale_price: detail.sale_price,
+        product: {id: detail.id_product}
+      }))
+    });
+
+    const saved = await this.purchaseRepository.save( purchase );
+
+    return this.findOne(saved.id)
   }
 
-  findAll() {
-    return `This action returns all purchase`;
+  async findAll() {
+    const purchases = await this.purchaseRepository.find();
+
+    return purchases;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} purchase`;
-  }
+  async findOne(id: string) {
+    const purchase = await this.purchaseRepository.findOneBy({id});
+        
+    if(!purchase) {
+      throw new NotFoundException(`Compra ${id} no encontrada`);
+    }
 
-  update(id: number, updatePurchaseInput: UpdatePurchaseInput) {
-    return `This action updates a #${id} purchase`;
+    return purchase;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} purchase`;
-  }
+  
 }

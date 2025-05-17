@@ -1,10 +1,10 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Product } from "src/products/entities/product.entity";
+import { Payment } from "./payment.entity";
+import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-@Entity('brand')
-export class Brand {
+@Entity('payment_method')
+export class PaymentMethod {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
@@ -13,6 +13,10 @@ export class Brand {
   @Column({ type: 'varchar', length: 100, nullable: false })
   @Field(() => String)
   name: string;
+
+  @Column({ type: 'text', nullable: true })
+  @Field(() => String, { nullable: true })
+  description: string | null;
 
   @Column({ type: 'boolean', default: false })
   @Field(() => Boolean, { defaultValue: false })
@@ -27,10 +31,10 @@ export class Brand {
   updated_at: Date;
 
   @OneToMany(
-    () => Product,
-    ( product ) => product.brand,
+    () => Payment,
+    ( payment ) => payment.payment_method,
     {  onDelete: 'CASCADE' }
   )
-  product: Product[]
+  payment: Payment[]
 
 }

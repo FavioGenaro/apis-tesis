@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Address } from './address.entity';
+import { Purchase } from 'src/purchase/entities/purchase.entity';
 
 @ObjectType()
 @Entity('customer')
@@ -23,14 +24,14 @@ export class Customer {
   email: string;
 
   @Column({ type: 'varchar', length: 20, nullable: true })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   phone: string;
 
   @Column({ type: 'text', nullable: false })
   password: string;
 
   @Column({ type: 'boolean', default: false })
-  @Field(() => Boolean)
+  @Field(() => Boolean, { defaultValue: false })
   is_eliminated: boolean;
 
   @CreateDateColumn()
@@ -41,12 +42,18 @@ export class Customer {
   @Field(() => Date)
   updated_at: Date;
 
+  @Field(() => [Address])
   @OneToMany(
     () => Address,
     (address) => address.customer,
     { cascade: true, eager: true }
   )
-  @Field(() => [Address])
   addresses: Address[];
 
+  @OneToMany(
+    () => Purchase,
+    ( purchase ) => purchase.customer,
+    {  onDelete: 'CASCADE' }
+  )
+  purchases: Purchase[]
 }

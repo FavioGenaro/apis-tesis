@@ -27,15 +27,15 @@ export class Address {
   zip: string;
 
   @Column({ type: 'text', nullable: true })
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   reference: string;
 
   @Column({ type: 'boolean', default: false })
-  @Field(() => Boolean)
+  @Field(() => Boolean, { defaultValue: false })
   is_default: boolean;
 
   @Column({ type: 'boolean', default: false })
-  @Field(() => Boolean)
+  @Field(() => Boolean, { defaultValue: false })
   is_eliminated: boolean;
 
   @CreateDateColumn()

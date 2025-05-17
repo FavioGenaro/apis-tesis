@@ -1,18 +1,22 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "src/products/entities/product.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @ObjectType()
-@Entity('brand')
-export class Brand {
+@Entity('product_specs')
+export class ProductSpecs {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   @Field(() => String)
   name: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Field(() => String)
+  value: string;
 
   @Column({ type: 'boolean', default: false })
   @Field(() => Boolean, { defaultValue: false })
@@ -26,11 +30,12 @@ export class Brand {
   @Field(() => Date)
   updated_at: Date;
 
-  @OneToMany(
+  @ManyToOne(
     () => Product,
-    ( product ) => product.brand,
+    ( product ) => product.productSpecs,
     {  onDelete: 'CASCADE' }
   )
-  product: Product[]
+  @JoinColumn({ name: 'id_product' })
+  product: Product
 
 }

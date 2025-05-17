@@ -2,34 +2,34 @@ import { Field, InputType } from "@nestjs/graphql";
 import { IsBoolean, IsNotEmpty, IsString, Length } from "class-validator";
 
 @InputType()
-export class CreateAddressDto {
+export class CreateAddressInput {
 
-  @Field( () => String )
   @IsString()
   @IsNotEmpty()
+  @Field( () => String )
   street: string;
 
-  @Field( () => String )
   @IsString()
   @IsNotEmpty()
+  @Field( () => String )
   city: string;
 
-  @Field( () => String )
   @IsString()
   @IsNotEmpty()
+  @Field( () => String )
   country: string;
 
-  @Field( () => String )
   @Length(5,5)
+  @Field( () => String )
   zip: string;
 
-  @Field( () => String )
   @IsString()
   @IsNotEmpty()
+  @Field( () => String )
   reference: string;
 
-  @Field( () => Boolean )
   @IsBoolean()
+  @Field( () => Boolean, { defaultValue: false } )
   is_default: boolean;
 
 }

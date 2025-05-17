@@ -1,10 +1,11 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Product } from "src/products/entities/product.entity";
+import { Payment } from "./payment.entity";
+import { Purchase } from "./purchase.entity";
+import { Field, ID, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-@Entity('brand')
-export class Brand {
+@Entity('status')
+export class Status {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
@@ -14,8 +15,12 @@ export class Brand {
   @Field(() => String)
   name: string;
 
+  @Column({ type: 'enum', nullable: false, enum: ['Purchase', 'Payment'] })
+  @Field(() => String)
+  type: string;
+
   @Column({ type: 'boolean', default: false })
-  @Field(() => Boolean, { defaultValue: false })
+  @Field(() => Boolean)
   is_eliminated: boolean;
 
   @CreateDateColumn()
@@ -27,10 +32,16 @@ export class Brand {
   updated_at: Date;
 
   @OneToMany(
-    () => Product,
-    ( product ) => product.brand,
+    () => Payment,
+    ( payment ) => payment.status,
     {  onDelete: 'CASCADE' }
   )
-  product: Product[]
+  payments: Payment[];
 
+  @OneToMany(
+    () => Purchase,
+    ( purchase ) => purchase.status,
+    {  onDelete: 'CASCADE' }
+  )
+  purchases: Purchase[]
 }

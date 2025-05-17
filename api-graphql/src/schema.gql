@@ -2,19 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Product {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Address {
+type Category {
   id: ID!
-  street: String!
-  city: String!
-  country: String!
-  zip: String!
-  reference: String!
-  is_default: Boolean!
+  name: String!
   is_eliminated: Boolean!
   created_at: DateTime!
   updated_at: DateTime!
@@ -25,12 +15,69 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type ProductSpecs {
+  id: ID!
+  name: String!
+  value: String!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Brand {
+  id: ID!
+  name: String!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type PaymentMethod {
+  id: ID!
+  name: String!
+  description: String
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Payment {
+  id: ID!
+  currency: String!
+  amount: Float!
+  processed_at: DateTime!
+  payment_method: PaymentMethod!
+  status: Status!
+}
+
+type Status {
+  id: ID!
+  name: String!
+  type: String!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Address {
+  id: ID!
+  street: String!
+  city: String!
+  country: String!
+  zip: String!
+  reference: String
+  is_default: Boolean!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Customer {
   id: ID!
   first_name: String!
   last_name: String!
   email: String!
-  phone: String!
+  phone: String
   is_eliminated: Boolean!
   created_at: DateTime!
   updated_at: DateTime!
@@ -38,37 +85,76 @@ type Customer {
 }
 
 type Purchase {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  currency: String!
+  total_cost: Float!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  id_customer: ID!
+  status: Status!
+  payments: [Payment!]!
+  purchaseDetail: [PurchaseDetail!]!
+}
+
+type PurchaseDetail {
+  id: ID!
+  quantity: Int!
+  sale_price: Float!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  id_product: ID!
+}
+
+type Product {
+  id: ID!
+  sku: String!
+  name: String!
+  description: String!
+  price: Float!
+  stock: Int!
+  currency: String!
+  img_src: String!
+  is_eliminated: Boolean!
+  created_at: DateTime!
+  updated_at: DateTime!
+  brand: Brand!
+  category: Category!
+  productSpecs: [ProductSpecs!]!
 }
 
 type Query {
   products: [Product!]!
-  product(id: Int!): Product!
+  product(id: String!): Product!
   customers: [Customer!]!
   customer(id: ID!): Customer!
-  purchase(id: Int!): Purchase!
+  purchases: [Purchase!]!
+  purchase(id: String!): Purchase!
 }
 
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
-  updateProduct(updateProductInput: UpdateProductInput!): Product!
-  removeProduct(id: Int!): Product!
   createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
   createPurchase(createPurchaseInput: CreatePurchaseInput!): Purchase!
-  updatePurchase(updatePurchaseInput: UpdatePurchaseInput!): Purchase!
-  removePurchase(id: Int!): Purchase!
 }
 
 input CreateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id_category: ID!
+  id_brand: ID!
+  sku: String!
+  name: String!
+  description: String!
+  price: String!
+  stock: Int!
+  currency: String!
+  img_src: String!
+  productSpecs: [CreateProductSpecInput!]!
 }
 
-input UpdateProductInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreateProductSpecInput {
+  name: String!
+  value: String!
 }
 
 input CreateCustomerInput {
@@ -77,25 +163,36 @@ input CreateCustomerInput {
   email: String!
   password: String!
   phone: String!
-  addresses: [CreateAddressDto!]!
+  addresses: [CreateAddressInput!]!
 }
 
-input CreateAddressDto {
+input CreateAddressInput {
   street: String!
   city: String!
   country: String!
   zip: String!
   reference: String!
-  is_default: Boolean!
+  is_default: Boolean! = false
 }
 
 input CreatePurchaseInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id_status: ID!
+  id_customer: ID!
+  total_cost: String!
+  currency: String!
+  payments: [CreatePaymentInput!]!
+  purchaseDetail: [CreatePurchaseDetailInput!]!
 }
 
-input UpdatePurchaseInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreatePaymentInput {
+  id_status: ID!
+  id_payment_method: ID!
+  amount: String!
+  currency: String!
+}
+
+input CreatePurchaseDetailInput {
+  id_product: ID!
+  sale_price: String!
+  quantity: Int!
 }

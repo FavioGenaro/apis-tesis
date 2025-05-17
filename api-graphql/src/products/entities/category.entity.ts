@@ -1,10 +1,10 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Product } from "src/products/entities/product.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @ObjectType()
-@Entity('brand')
-export class Brand {
+@Entity('category')
+export class Category {
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
@@ -28,9 +28,9 @@ export class Brand {
 
   @OneToMany(
     () => Product,
-    ( product ) => product.brand,
+    ( product ) => product.category,
     {  onDelete: 'CASCADE' }
   )
-  product: Product[]
+  products: Product[]
 
 }

@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductInput } from './dto/create-product.input';
-import { UpdateProductInput } from './dto/update-product.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
-  create(createProductInput: CreateProductInput) {
-    return 'This action adds a new product';
+
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+  ) {}
+
+  async create(createProductInput: CreateProductInput) {
+    const { sku, id_brand, id_category, ...data } = createProductInput;
+
+    const product = await this.productRepository.findOneBy({sku});
+    
+    if(product) throw new ConflictException(`SKU ya esta registrado`);
+
+    const productNew = this.productRepository.create({
+      ...data,
+      sku,
+      brand: {id: id_brand},
+      category: {id:id_category}
+    });
+
+    const saved = await this.productRepository.save( productNew );
+
+    return this.findOne(saved.id)
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async findAll() {
+    const products = await this.productRepository.find();
+
+    return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
+  async findOne(id: string) {
+    const product = await this.productRepository.findOneBy({id});
 
-  update(id: number, updateProductInput: UpdateProductInput) {
-    return `This action updates a #${id} product`;
-  }
+    if(!product) {
+      throw new NotFoundException(`Producto ${id} no encontrado`);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+    return product;
   }
 }
