@@ -34,7 +34,7 @@ export class ProductsService {
   async findAll() {
     const products = await this.productRepository.find();
 
-    return products;
+    return { data: { products } };
   }
 
   async findOne(id: string) {
@@ -45,7 +45,7 @@ export class ProductsService {
       throw new NotFoundException(`Producto ${id} no encontrado`);
     }
 
-    return product;
+    return { data: { product } };
   }
 
 }

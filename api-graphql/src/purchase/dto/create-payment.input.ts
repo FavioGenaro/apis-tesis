@@ -1,4 +1,4 @@
-import { Field, Float, ID, InputType } from "@nestjs/graphql";
+import { Field, ID, InputType } from "@nestjs/graphql";
 import { IsDecimal, IsUUID, Length } from "class-validator";
 
 @InputType()

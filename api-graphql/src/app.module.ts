@@ -15,7 +15,6 @@ import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugi
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      // debug: false,
       playground: false,
       autoSchemaFile: join( process.cwd(), 'src/schema.gql'), 
       plugins: [
@@ -31,7 +30,7 @@ import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugi
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD, 
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
     }),
     ProductsModule, 
     CustomerModule, 

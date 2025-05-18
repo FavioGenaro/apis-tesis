@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { ArrayMinSize, IsDecimal, IsNotEmpty, IsNumber, IsString, IsUrl, IsUUID, Length, ValidateNested } from "class-validator";
 import { CreateProductSpecInput } from "./create-productSpecs.input";
-import { Field, Float, ID, InputType, Int } from "@nestjs/graphql";
+import { Field, ID, InputType, Int } from "@nestjs/graphql";
 
 @InputType()
 export class CreateProductInput {

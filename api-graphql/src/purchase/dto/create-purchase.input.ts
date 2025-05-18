@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { ArrayMinSize, IsDecimal, IsUUID, Length, ValidateNested } from "class-validator";
 import { CreatePaymentInput } from "./create-payment.input";
 import { CreatePurchaseDetailInput } from "./create-purchase-detail.input";
-import { Field, Float, ID, InputType } from "@nestjs/graphql";
+import { Field, ID, InputType } from "@nestjs/graphql";
 
 @InputType()
 export class CreatePurchaseInput {

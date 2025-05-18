@@ -40,7 +40,7 @@ export class PurchaseService {
   async findAll() {
     const purchases = await this.purchaseRepository.find();
 
-    return purchases;
+    return { data: { purchases } };
   }
 
   async findOne(id: string) {
@@ -50,6 +50,6 @@ export class PurchaseService {
       throw new NotFoundException(`Compra ${id} no encontrada`);
     }
 
-    return purchase;
+    return { data: { purchase } };
   }
 }

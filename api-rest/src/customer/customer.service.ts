@@ -34,7 +34,7 @@ export class CustomerService {
   async findAll() {
     const customers = await this.customerRepository.find();
 
-    return customers;
+    return { data: { customers } };
   }
 
   async findOne(id: string) {
@@ -46,7 +46,7 @@ export class CustomerService {
 
     const { password, ...data } = customer;
 
-    return {data: { customer: data }};
+    return { data: { customer: data } };
   }
   
 }
