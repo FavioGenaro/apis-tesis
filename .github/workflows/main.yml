@@ -1,0 +1,45 @@
+name: Deploy APIs to Google Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    name: Deploy Nest APIs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get commit hash
+        id: vars
+        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+        
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker southamerica-east1-docker.pkg.dev
+
+      ###############################
+      # Build and Push REST API
+      ###############################
+      - name: Build and Push REST API Docker image
+        run: |
+          docker build -t southamerica-east1-docker.pkg.dev/metal-node-424103-e4/nest-artifacts/api-rest:${SHORT_SHA} ./api-rest
+          docker push southamerica-east1-docker.pkg.dev/metal-node-424103-e4/nest-artifacts/api-rest:${SHORT_SHA}
+
+      ###############################
+      # Build and Push GraphQL API
+      ###############################
+      - name: Build and Push GraphQL API Docker image
+        run: |
+          docker build -t southamerica-east1-docker.pkg.dev/metal-node-424103-e4/nest-artifacts/api-graphql:${SHORT_SHA} ./api-graphql
+          docker push southamerica-east1-docker.pkg.dev/metal-node-424103-e4/nest-artifacts/api-graphql:${SHORT_SHA}
