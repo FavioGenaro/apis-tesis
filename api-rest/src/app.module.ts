@@ -11,13 +11,16 @@ import { PurchaseModule } from './purchase/purchase.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: process.env.DB_TYPE_CONNECT === 'socket' ? process.env.DB_HOST_SOCKET : process.env.DB_HOST,/// process.env.DB_HOST,
       port: +!process.env.DB_PORT,
-      database: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD, 
+      database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: process.env.MODE == 'production' ? false : true,
+      extra: process.env.DB_TYPE_CONNECT === 'socket' ? 
+        {socketPath: `/cloudsql/${process.env.CLOUD_SQL_CONNECTION_NAME}`} : 
+        {}
     }),
     ProductsModule,
     SeedModule,
