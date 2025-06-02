@@ -1,0 +1,5 @@
+timestamp,metric,value,unit
+1748827088223,custom.cpu.time,15,ms,/api/products
+1748827088223,custom.heap.used,740032,bytes,/api/products
+1748827117065,custom.cpu.time,0,ms,/api/customer
+1748827117065,custom.heap.used,756952,bytes,/api/customer
