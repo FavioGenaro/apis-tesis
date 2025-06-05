@@ -8,6 +8,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugin/landingPage/default';
+import { graphqlTracingPlugin } from './graphql-tracing.plugin';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { GraphQLMetricsInterceptor } from './graphql-metrics.interceptor';
+import { ErrorTracingInterceptor } from './error.interceptor';
 
 @Module({
   imports: [
@@ -18,7 +22,8 @@ import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugi
       playground: false,
       autoSchemaFile: join( process.cwd(), 'src/schema.gql'), 
       plugins: [
-        ApolloServerPluginLandingPageLocalDefault()
+        graphqlTracingPlugin(),
+        ApolloServerPluginLandingPageLocalDefault(),
       ]
     }),
 
@@ -37,6 +42,15 @@ import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugi
     PurchaseModule
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: GraphQLMetricsInterceptor,
+    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: ErrorTracingInterceptor,
+    // },
+  ],
 })
 export class AppModule {}
