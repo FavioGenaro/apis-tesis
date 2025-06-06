@@ -8,15 +8,13 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import * as path from 'path';
 import * as fs from 'fs';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { trace,context as otelContext } from '@opentelemetry/api';
+import { trace, context as otelContext } from '@opentelemetry/api';
 
 @Injectable()
 export class GraphQLMetricsInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
 
     const span = trace.getSpan(otelContext.active());
-
-    console.log(span) // ver que trae, para ver el error en una petición
 
     const ctx = GqlExecutionContext.create(context);
     const info = ctx.getInfo();
@@ -38,10 +36,9 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
         const duration = performance.now() - start;
 
         const deltaMemMBHeap = (endMemHeap - startMemHeap) / 1024 / 1024;
-        const deltaMemMB = (endMem - startMem) / 1024 / 1024; // MB
-        const deltaCpuMS = (endCpu.user + endCpu.system) / 1000; // milisegundos
+        const deltaMemMB = Math.max(0, (endMem - startMem) / 1024 / 1024);
+        const deltaCpuMS = Math.max(0, (endCpu.user + endCpu.system) / 1000);
 
-        // Exportar CSV, o enviar vía OTLP
         writeMetricsToCsv(deltaCpuMS, deltaMemMB, deltaMemMBHeap, `${typeName}.${fieldName}`);
       }),
       catchError(err => {
@@ -53,25 +50,27 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
           const duration = performance.now() - start;
 
           const deltaMemMBHeap = (endMemHeap - startMemHeap) / 1024 / 1024;
-          const deltaMemMB = (endMem - startMem) / 1024 / 1024;
-          const deltaCpuMS = (endCpu.user + endCpu.system) / 1000;
+          const deltaMemMB = Math.max(0, (endMem - startMem) / 1024 / 1024);
+          const deltaCpuMS = Math.max(0, (endCpu.user + endCpu.system) / 1000);
 
-          // Exportar CSV, o enviar vía OTLP
           writeMetricsToCsv(deltaCpuMS, deltaMemMB, deltaMemMBHeap, `${typeName}.${fieldName}-ERROR`);
         }
         return throwError(() => err);
       }),
-      // catchError(err => {
-
-      // })
     )
   }
 }
 
-
 const METRICS_FILE = path.resolve(__dirname, '../metrics.csv');
 
 export function writeMetricsToCsv(cpuMs: number, memoryBytes: number, memoryBytesHeap: number, route: string) {
+
+  const filePath = path.join(process.cwd(), 'metrics.csv');
+
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, 'timestamp,metric,value,unit,operation\n');
+  }
+
   const timestamp = Date.now();
   const lineCpu = `${timestamp},cpu.time,${cpuMs},ms,${route}`;
   const lineMem = `${timestamp},heap.used,${memoryBytes},MB,${memoryBytesHeap},MB,${route}`;

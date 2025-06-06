@@ -18,8 +18,8 @@ export class CsvSpanExporter implements SpanExporter {
   }
 
   export(spans: ReadableSpan[], resultCallback: any): void {
+    // console.log(spans)
     for (const span of spans) {
-
       const opName = span.attributes['graphql.operation.name'] ?? '';
       const opType = span.attributes['graphql.operation.type'] ?? '';
 
@@ -44,7 +44,7 @@ export class CsvMetricExporter implements PushMetricExporter {
   }
 
   export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): void {
-
+    console.log(metrics.scopeMetrics)
     const allMetrics = metrics.scopeMetrics.flatMap((scope) =>
       scope.metrics.flatMap((metric) => {
         if (!metric.dataPoints.length) return [];
@@ -54,7 +54,18 @@ export class CsvMetricExporter implements PushMetricExporter {
           const name = metric.descriptor.name;
           const unit = metric.descriptor.unit;
           const attributes = JSON.stringify(point.attributes || {});
-          return `${timestamp},${name},${value},${unit},${attributes}`;
+          // console.log(attributes)
+          // console.log(metrics);
+          let status = '';
+          let method = '';
+          let route = '';
+          if(attributes) {
+            status = attributes['http.status_code'] ?? '';
+            method = attributes['http.method'] ?? '';
+            route = attributes['http.route'] ?? '';
+          }
+          point.attributes = undefined;
+          return `${timestamp},${name},${value},${unit},${attributes}`; // createObservableGauge
         });
       })
     );

@@ -11,7 +11,6 @@ import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugi
 import { graphqlTracingPlugin } from './graphql-tracing.plugin';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GraphQLMetricsInterceptor } from './graphql-metrics.interceptor';
-import { ErrorTracingInterceptor } from './error.interceptor';
 
 @Module({
   imports: [
@@ -43,13 +42,9 @@ import { ErrorTracingInterceptor } from './error.interceptor';
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: GraphQLMetricsInterceptor,
-    },
     // {
     //   provide: APP_INTERCEPTOR,
-    //   useClass: ErrorTracingInterceptor,
+    //   useClass: GraphQLMetricsInterceptor,
     // },
   ],
 })
