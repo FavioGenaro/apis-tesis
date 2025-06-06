@@ -5,6 +5,8 @@ import { ProductsModule } from './products/products.module';
 import { SeedModule } from './seed/seed.module';
 import { CustomerModule } from './customer/customer.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MetricsInterceptor } from './metrics/rest-metrics.interceptor';
 
 @Module({
   imports: [
@@ -25,6 +27,11 @@ import { PurchaseModule } from './purchase/purchase.module';
     PurchaseModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: MetricsInterceptor,
+    }
+  ],
 })
 export class AppModule {}

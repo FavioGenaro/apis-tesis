@@ -1,0 +1,8 @@
+1749185102003,cpu.system.time,328,625,ms,POST,/api/customer,409
+1749185102003,cpu.user.time,609,328,ms,POST,/api/customer,409
+1749185102003,memory.rss,109.1640625,109.31640625,MB,POST,/api/customer,409
+1749185102003,duration,23.14,-,ms,POST,/api/customer,409
+1749185107449,cpu.system.time,328,640,ms,GET,/api/customer,200
+1749185107449,cpu.user.time,640,328,ms,GET,/api/customer,200
+1749185107449,memory.rss,78.56640625,79.01171875,MB,GET,/api/customer,200
+1749185107449,duration,3.96,-,ms,GET,/api/customer,200
