@@ -1,4 +1,4 @@
-import { CsvMetricExporter, } from './csv-exporters';
+import { MetricExporter, } from './exporters';
 import { resourceFromAttributes } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { metrics } from '@opentelemetry/api';
@@ -11,7 +11,7 @@ const meterProvider = new MeterProvider({
 
   readers: [
     new PeriodicExportingMetricReader({
-      exporter: new CsvMetricExporter(),
+      exporter: new MetricExporter(),
       exportIntervalMillis: 5000,
     }),
   ]

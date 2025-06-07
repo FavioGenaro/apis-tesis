@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { metricsInterceptor } from './metrics.type';
-import { writeMetricsToCsvInterceptor } from './push-metrics';
+import { pushMetricInterceptor } from './push-metrics';
 
 @Injectable()
 export class MetricsInterceptor implements NestInterceptor {
@@ -23,7 +23,7 @@ export class MetricsInterceptor implements NestInterceptor {
     const start = performance.now();
 
     return next.handle().pipe(
-      tap(() => {
+      tap(async () => {
 
         const status = response.statusCode.toString();
 
@@ -47,9 +47,9 @@ export class MetricsInterceptor implements NestInterceptor {
           status: status ?? '200',
         }
 
-        writeMetricsToCsvInterceptor(metrics)
+        await pushMetricInterceptor(metrics);
       }),
-      catchError(err => {
+      catchError(async (err) => {
 
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
@@ -71,7 +71,7 @@ export class MetricsInterceptor implements NestInterceptor {
           status: err.response.statusCode,
         }
 
-        writeMetricsToCsvInterceptor(metrics)
+        await pushMetricInterceptor(metrics);
         
         return throwError(() => err);
       }),

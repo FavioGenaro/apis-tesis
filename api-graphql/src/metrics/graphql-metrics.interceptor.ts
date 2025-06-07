@@ -7,7 +7,7 @@ import {
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { metricsInterceptor } from './metrics.type';
-import { writeMetricsToCsvInterceptor } from './push-metrics';
+import { pushMetricInterceptor } from './push-metrics';
 
 @Injectable()
 export class GraphQLMetricsInterceptor implements NestInterceptor {
@@ -25,7 +25,7 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
     const start = performance.now();
 
     return next.handle().pipe(
-      tap(() => {
+      tap(async () => {
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
         const endMem = process.memoryUsage().rss / 1024 / 1024;
@@ -46,9 +46,10 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
           status: '200'
         }
 
-        writeMetricsToCsvInterceptor(metrics);
+        await pushMetricInterceptor(metrics)
+
       }),
-      catchError(err => {
+      catchError(async (err) => {
 
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
@@ -70,7 +71,7 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
           status: err.response.statusCode,
         }
 
-        writeMetricsToCsvInterceptor(metrics);
+        await pushMetricInterceptor(metrics);
         
         return throwError(() => err);
       }),

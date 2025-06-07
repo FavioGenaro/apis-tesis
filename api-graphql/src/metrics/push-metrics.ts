@@ -1,37 +1,56 @@
-import * as path from 'path';
-import * as fs from 'fs';
 import { metricsExporter, metricsInterceptor } from './metrics.type';
+import { PubSub } from "@google-cloud/pubsub";
 
-const METRICS_INTERCEPTOR_FILE = path.resolve(__dirname, '../../metrics_interceptor.csv');
-const METRICS_EXPORTER_FILE = path.resolve(__dirname, '../../metrics_exporter.csv');
+export async function pushMetricExporter( metrics: metricsExporter[]) {
+  try {
+    const pubsub = new PubSub();
+    const topicName = process.env.TOPIC_EXPORTER;
 
-export function writeMetricsToCsvInterceptor(metrics: metricsInterceptor) {
+    if(!topicName) return;
+    
+    const mensaje = {
+      type : "metricExporter",
+      data: {
+        ...metrics
+      }
+    };
 
-  const filePath = path.join(process.cwd(), '../../metrics_interceptor.csv');
+    const dataBuffer = Buffer.from(JSON.stringify(mensaje));
 
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, 'timestamp,metric,startValue,endValue,unit,operationType,operation,status\n');
+    await pubsub.topic(topicName).publishMessage({ data: dataBuffer });
+  } catch (err) {
+    console.error('Error publicando métricas del exporter en Pub/Sub:', err.message);
   }
-
-  const lineCpuSystem = `${metrics.timestamp},cpu.system.time,${metrics.startCpuSystem},${metrics.endCpuSystem},ms,${metrics.operationType},${metrics.operation},${metrics.status}`;
-  const lineCpuUser = `${metrics.timestamp},cpu.user.time,${metrics.startCpuUser},${metrics.endCpuUser},ms,${metrics.operationType},${metrics.operation},${metrics.status}`;
-  const lineMem = `${metrics.timestamp},memory.rss,${metrics.startMem},${metrics.endMem},MB,${metrics.operationType},${metrics.operation},${metrics.status}`;
-  const duration = `${metrics.timestamp},duration,${metrics.duration},-,ms,${metrics.operationType},${metrics.operation},${metrics.status}`;
-
-  fs.appendFileSync(METRICS_INTERCEPTOR_FILE, `${lineCpuSystem}\n${lineCpuUser}\n${lineMem}\n${duration}\n`);
 }
 
-export function writeMetricsToCsvExporter(metrics: metricsExporter[]) {
+export async function pushMetricInterceptor( metrics: metricsInterceptor) {
+  try {
+    const pubsub = new PubSub();
+    const topicName = process.env.TOPIC_INTERCEPTOR;
 
-  const filePath = path.join(process.cwd(), '../../metrics_exporter.csv');
+    if(!topicName) return;
 
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, 'timestamp,metric,value,unit\n');
+    const mensaje = {
+      type : "metricInterceptor",
+      data: {
+        timestamp: metrics.timestamp,
+        startCpuUser: metrics.startCpuUser,
+        startCpuSystem: metrics.startCpuSystem,
+        startMem: metrics.startMem,
+        endCpuUser: metrics.endCpuUser,
+        endCpuSystem: metrics.endCpuSystem,
+        endMem: metrics.endMem,
+        duration: metrics.duration,
+        operationType: metrics.operationType,
+        operation: metrics.operation,
+        status: metrics.status,
+      }
+    };
+
+    const dataBuffer = Buffer.from(JSON.stringify(mensaje));
+
+    await pubsub.topic(topicName).publishMessage({ data: dataBuffer });
+  } catch (err) {
+    console.error('Error publicando métricas del interceptor en Pub/Sub:', err.message);
   }
-
-  const lines = metrics.map((metric) => (
-    `${metric.timestamp},${metric.name},${metric.value},${metric.unit}`
-  )).join('\n')
-
-  fs.appendFileSync(METRICS_EXPORTER_FILE, `${lines}\n`);
 }

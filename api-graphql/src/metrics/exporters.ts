@@ -5,13 +5,12 @@ import {
 } from '@opentelemetry/sdk-metrics';
 import { ExportResult } from '@opentelemetry/core';
 import { metricsExporter } from './metrics.type';
-import { writeMetricsToCsvExporter } from './push-metrics';
-
-export class CsvMetricExporter implements PushMetricExporter {
+import { pushMetricExporter } from './push-metrics';
+export class MetricExporter implements PushMetricExporter {
 
   constructor() {}
 
-  export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): void {
+  async export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void> {
     
     const allMetrics: metricsExporter[] = metrics.scopeMetrics.flatMap((scope) =>
       scope.metrics.flatMap((metric) => {
@@ -38,7 +37,7 @@ export class CsvMetricExporter implements PushMetricExporter {
       return resultCallback({ code: 0 }); 
     }
 
-    writeMetricsToCsvExporter(allMetrics);
+    await pushMetricExporter(allMetrics);
 
     resultCallback({ code: 0 });
   }
