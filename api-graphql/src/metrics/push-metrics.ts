@@ -18,6 +18,9 @@ export async function pushMetricExporter( metrics: metricsExporter) {
     const dataBuffer = Buffer.from(JSON.stringify(mensaje));
 
     await pubsub.topic(topicName).publishMessage({ data: dataBuffer });
+
+    console.log('Metrica de exporter publicada', metrics.timestamp)
+    
   } catch (err) {
     console.error('Error publicando métricas del exporter en Pub/Sub:', err.message);
   }
@@ -51,6 +54,9 @@ export async function pushMetricInterceptor( metrics: metricsInterceptor) {
     const dataBuffer = Buffer.from(JSON.stringify(mensaje));
 
     await pubsub.topic(topicName).publishMessage({ data: dataBuffer });
+
+    console.log('Metrica de interceptor publicada', metrics.timestamp)
+
   } catch (err) {
     console.error('Error publicando métricas del interceptor en Pub/Sub:', err.message);
   }

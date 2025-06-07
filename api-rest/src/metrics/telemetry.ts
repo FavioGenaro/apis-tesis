@@ -12,7 +12,7 @@ const meterProvider = new MeterProvider({
   readers: [
     new PeriodicExportingMetricReader({
       exporter: new MetricExporter(),
-      exportIntervalMillis: 5000,
+      exportIntervalMillis: 10000,
     }),
   ]
 });
