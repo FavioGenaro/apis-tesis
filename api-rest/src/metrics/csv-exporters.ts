@@ -1,23 +1,19 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import {
   PushMetricExporter,
   ResourceMetrics,
   AggregationTemporality,
 } from '@opentelemetry/sdk-metrics';
 import { ExportResult } from '@opentelemetry/core';
-export class CsvMetricExporter implements PushMetricExporter {
-  private filePath = path.join(process.cwd(), 'metrics.csv');
+import { metricsExporter } from './metrics.type';
+import { writeMetricsToCsvExporter } from './push-metrics';
 
-  constructor() {
-    if (!fs.existsSync(this.filePath)) {
-      fs.writeFileSync(this.filePath, 'timestamp,metric,value,unit\n');
-    }
-  }
+export class CsvMetricExporter implements PushMetricExporter {
+
+  constructor() {}
 
   export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): void {
     
-    const allMetrics = metrics.scopeMetrics.flatMap((scope) =>
+    const allMetrics: metricsExporter[] = metrics.scopeMetrics.flatMap((scope) =>
       scope.metrics.flatMap((metric) => {
         if (!metric.dataPoints.length) return [];
         
@@ -28,7 +24,12 @@ export class CsvMetricExporter implements PushMetricExporter {
           const name = metric.descriptor.name;
           const unit = metric.descriptor.unit;
 
-          return `${timestamp},${name},${value},${unit}`;
+          return {
+            timestamp: timestamp.toString(),
+            name,
+            value,
+            unit,
+          }
         });
       })
     );
@@ -37,10 +38,7 @@ export class CsvMetricExporter implements PushMetricExporter {
       return resultCallback({ code: 0 }); 
     }
 
-    require('fs').appendFileSync(
-      'metrics.csv',
-      allMetrics.join('\n') + '\n',
-    );
+    writeMetricsToCsvExporter(allMetrics);
 
     resultCallback({ code: 0 });
   }

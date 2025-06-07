@@ -1,0 +1,4 @@
+1749255050442,cpu.system.time,453,625,ms,GET,/api/customer,200
+1749255050442,cpu.user.time,625,453,ms,GET,/api/customer,200
+1749255050442,memory.rss,75.62109375,76.37890625,MB,GET,/api/customer,200
+1749255050442,duration,80.64,-,ms,GET,/api/customer,200
