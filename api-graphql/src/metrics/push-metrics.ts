@@ -1,7 +1,7 @@
 import { metricsExporter, metricsInterceptor } from './metrics.type';
 import { PubSub } from "@google-cloud/pubsub";
 
-export async function pushMetricExporter( metrics: metricsExporter[]) {
+export async function pushMetricExporter( metrics: metricsExporter) {
   try {
     const pubsub = new PubSub();
     const topicName = process.env.TOPIC_EXPORTER;
@@ -46,6 +46,7 @@ export async function pushMetricInterceptor( metrics: metricsInterceptor) {
         status: metrics.status,
       }
     };
+    console.log(mensaje)
 
     const dataBuffer = Buffer.from(JSON.stringify(mensaje));
 

@@ -4,7 +4,6 @@ import {
   AggregationTemporality,
 } from '@opentelemetry/sdk-metrics';
 import { ExportResult } from '@opentelemetry/core';
-import { metricsExporter } from './metrics.type';
 import { pushMetricExporter } from './push-metrics';
 export class MetricExporter implements PushMetricExporter {
 
@@ -12,7 +11,11 @@ export class MetricExporter implements PushMetricExporter {
 
   async export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): Promise<void> {
     
-    const allMetrics: metricsExporter[] = metrics.scopeMetrics.flatMap((scope) =>
+    let memory: string = ''
+    let cpuUser: string = ''
+    let cpuSystem: string = ''
+
+    const allMetrics = metrics.scopeMetrics.flatMap( (scope) =>
       scope.metrics.flatMap((metric) => {
         if (!metric.dataPoints.length) return [];
         
@@ -22,6 +25,18 @@ export class MetricExporter implements PushMetricExporter {
           const value = typeof point.value === 'number' ? point.value : point.value.sum;
           const name = metric.descriptor.name;
           const unit = metric.descriptor.unit;
+
+          if(name == 'memory.rss') {
+            memory = value
+          }
+
+          if(name == 'cpu.system.time') {
+            cpuSystem = value
+          }
+
+          if(name == 'cpu.user.time') {
+            cpuUser = value
+          }
 
           return {
             timestamp: timestamp.toString(),
@@ -37,7 +52,12 @@ export class MetricExporter implements PushMetricExporter {
       return resultCallback({ code: 0 }); 
     }
 
-    await pushMetricExporter(allMetrics);
+    await pushMetricExporter({
+      timestamp: Date.now().toString(),
+      cpuUser: cpuUser.toString(),
+      cpuSystem: cpuSystem.toString(),
+      mem: memory.toString()
+    })
 
     resultCallback({ code: 0 });
   }

@@ -14,7 +14,7 @@ export interface metricsInterceptor {
 
 export interface metricsExporter {
   timestamp: string;
-  name: string;
-  value: string;
-  unit: string;
+  cpuUser: string;
+  cpuSystem: string;
+  mem: string;
 }
