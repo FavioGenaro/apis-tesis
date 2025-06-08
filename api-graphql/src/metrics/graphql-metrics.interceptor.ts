@@ -25,7 +25,7 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
     const start = performance.now();
 
     return next.handle().pipe(
-      tap(async () => {
+      tap(() => {
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
         const endMem = process.memoryUsage().rss / 1024 / 1024;
@@ -46,10 +46,10 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
           status: '200'
         }
 
-        await pushMetricInterceptor(metrics)
+        pushMetricInterceptor(metrics).catch(console.error)
 
       }),
-      catchError(async (err) => {
+      catchError((err) => {
 
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
@@ -71,7 +71,7 @@ export class GraphQLMetricsInterceptor implements NestInterceptor {
           status: err.response.statusCode,
         }
 
-        await pushMetricInterceptor(metrics);
+        pushMetricInterceptor(metrics).catch(console.error);
         
         return throwError(() => err);
       }),

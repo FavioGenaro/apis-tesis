@@ -23,7 +23,7 @@ export class MetricsInterceptor implements NestInterceptor {
     const start = performance.now();
 
     return next.handle().pipe(
-      tap(async () => {
+      tap(() => {
 
         const status = response.statusCode.toString();
 
@@ -47,9 +47,9 @@ export class MetricsInterceptor implements NestInterceptor {
           status: status ?? '200',
         }
 
-        await pushMetricInterceptor(metrics);
+        pushMetricInterceptor(metrics).catch(console.error);
       }),
-      catchError(async (err) => {
+      catchError((err) => {
 
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
@@ -68,10 +68,10 @@ export class MetricsInterceptor implements NestInterceptor {
           duration,
           operationType: method,
           operation: route,
-          status: err.response.statusCode,
+          status: err.response.statusCode ?? '400',
         }
 
-        await pushMetricInterceptor(metrics);
+        pushMetricInterceptor(metrics).catch(console.error);
         
         return throwError(() => err);
       }),
