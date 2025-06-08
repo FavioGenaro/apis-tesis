@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,success,bytes,sentBytes,URL,Latency,Connect
+1749412119863,70,Get purchase by id,200,OK,true,2355,1084,http://localhost:3000/graphql,70,2
+1749412119961,7,Get purchase by id,200,OK,true,2377,1084,http://localhost:3000/graphql,7,1
+1749412120061,6,Get purchase by id,200,OK,true,2357,1084,http://localhost:3000/graphql,6,1
+1749412120163,6,Get purchase by id,200,OK,true,2370,1084,http://localhost:3000/graphql,6,1
+1749412120264,5,Get purchase by id,200,OK,true,2377,1084,http://localhost:3000/graphql,5,1
+1749412120362,6,Get purchase by id,200,OK,true,2366,1084,http://localhost:3000/graphql,6,0
+1749412120462,6,Get purchase by id,200,OK,true,2368,1084,http://localhost:3000/graphql,6,1
+1749412120561,5,Get purchase by id,200,OK,true,2358,1084,http://localhost:3000/graphql,5,1
+1749412120663,8,Get purchase by id,200,OK,true,2371,1084,http://localhost:3000/graphql,8,2
+1749412120763,5,Get purchase by id,200,OK,true,2375,1084,http://localhost:3000/graphql,5,0

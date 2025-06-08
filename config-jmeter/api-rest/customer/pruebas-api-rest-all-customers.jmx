@@ -20,40 +20,20 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create product">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get all customers" enabled="true">
           <stringProp name="HTTPSampler.domain">api-rest-609569711189.southamerica-east1.run.app</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
-          <stringProp name="HTTPSampler.path">/api/products</stringProp>
+          <stringProp name="HTTPSampler.path">/api/customer</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&#xd;
-    &quot;id_brand&quot;: &quot;${id_brand}&quot;,&#xd;
-    &quot;id_category&quot;: &quot;${id_category}&quot;,&#xd;
-    &quot;sku&quot;: &quot;${sku}&quot;,&#xd;
-    &quot;name&quot;: &quot;${name}&quot;,&#xd;
-    &quot;description&quot;: &quot;${description}&quot;,&#xd;
-    &quot;price&quot;: &quot;${price}&quot;,&#xd;
-    &quot;stock&quot;: ${stock},&#xd;
-    &quot;currency&quot;: &quot;${currency}&quot;,&#xd;
-    &quot;img_src&quot;: &quot;${img_src}&quot;,&#xd;
-    &quot;productSpecs&quot;: [&#xd;
-      { &quot;name&quot;: &quot;${productSpecsName1}&quot;, &quot;value&quot;: &quot;${productSpecsValue1}&quot; },&#xd;
-      { &quot;name&quot;: &quot;${productSpecsName2}&quot;, &quot;value&quot;: &quot;${productSpecsValue2}&quot; }&#xd;
-    ]&#xd;
-}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+            <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">content-type</stringProp>
@@ -63,7 +43,7 @@
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -132,20 +112,8 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\pruebas-api-rest-product-create.csv</stringProp>
+          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\pruebas-api-rest-all-customers.csv</stringProp>
         </ResultCollector>
-        <hashTree/>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración del CSV Data Set">
-          <stringProp name="delimiter">,</stringProp>
-          <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">C:/Users/favio/OneDrive/Desktop/Tesis/APIS/pruebas-api-rest-product-create-data.csv</stringProp>
-          <boolProp name="ignoreFirstLine">true</boolProp>
-          <boolProp name="quotedData">false</boolProp>
-          <boolProp name="recycle">true</boolProp>
-          <stringProp name="shareMode">shareMode.all</stringProp>
-          <boolProp name="stopThread">false</boolProp>
-          <stringProp name="variableNames">id_brand,id_category,sku,name,description,price,stock,currency,img_src,productSpecsName1,productSpecsValue1,productSpecsName2,productSpecsValue2</stringProp>
-        </CSVDataSet>
         <hashTree/>
       </hashTree>
     </hashTree>
