@@ -8,8 +8,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault }  from '@apollo/server/plugin/landingPage/default';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { GraphQLMetricsInterceptor } from './metrics/graphql-metrics.interceptor';
 
 @Module({
   imports: [
@@ -39,11 +37,6 @@ import { GraphQLMetricsInterceptor } from './metrics/graphql-metrics.interceptor
     PurchaseModule
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: GraphQLMetricsInterceptor,
-    }
-  ],
+  providers: [],
 })
 export class AppModule {}

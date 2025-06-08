@@ -12,9 +12,13 @@ import { pushMetricInterceptor } from './push-metrics';
 export class MetricsInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
 
+    console.log('Iniciando interceptor')
+
     const response = context.switchToHttp().getResponse();
     const method = response.req.method;
     const route = response.req.route.path;
+
+    console.log('Finalizar obtención de métricas de petición e iniciando métricas de CPU y MEM')
 
     const startCpuUser = process.cpuUsage().user / 1000;
     const startCpuSystem = process.cpuUsage().system / 1000;
@@ -22,10 +26,12 @@ export class MetricsInterceptor implements NestInterceptor {
 
     const start = performance.now();
 
+    console.log('Finalizar recopilación de métricas iniciales')
+
     return next.handle().pipe(
       tap(() => {
 
-        const status = response.statusCode.toString();
+        const status = '200';
 
         const endCpuUser = process.cpuUsage().system / 1000;
         const endCpuSystem = process.cpuUsage().user / 1000;
@@ -44,8 +50,10 @@ export class MetricsInterceptor implements NestInterceptor {
           duration,
           operationType: method,
           operation: route,
-          status: status ?? '200',
+          status: '200',
         }
+
+        console.log('Métricas recopiladas')
 
         pushMetricInterceptor(metrics).catch(console.error);
       }),
@@ -68,8 +76,10 @@ export class MetricsInterceptor implements NestInterceptor {
           duration,
           operationType: method,
           operation: route,
-          status: err.response.statusCode ?? '400',
+          status: err?.response?.statusCode ?? '400',
         }
+
+        console.log('Métricas recopiladas con Error')
 
         pushMetricInterceptor(metrics).catch(console.error);
         
