@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,success,bytes,sentBytes,URL,Latency,Connect
+1749364877782,140,Create customer,201,Created,true,1073,853,http://localhost:3001/api/customer,140,2
+1749364877885,205,Create customer,201,Created,true,1087,867,http://localhost:3001/api/customer,205,0
+1749364877981,114,Create customer,201,Created,true,1079,859,http://localhost:3001/api/customer,114,1
+1749364878081,185,Create customer,201,Created,true,1064,844,http://localhost:3001/api/customer,185,1
+1749364878181,86,Create customer,201,Created,true,1078,858,http://localhost:3001/api/customer,86,1
+1749364878282,65,Create customer,201,Created,true,1070,850,http://localhost:3001/api/customer,65,1
+1749364878383,66,Create customer,201,Created,true,1071,851,http://localhost:3001/api/customer,66,1
+1749364878481,66,Create customer,201,Created,true,1076,856,http://localhost:3001/api/customer,66,1
+1749364878581,66,Create customer,201,Created,true,1073,853,http://localhost:3001/api/customer,66,1
+1749364878681,67,Create customer,201,Created,true,1082,862,http://localhost:3001/api/customer,67,1

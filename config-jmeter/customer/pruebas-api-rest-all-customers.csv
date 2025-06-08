@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,success,bytes,sentBytes,URL,Latency,Connect
+1749365600664,78,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,75,2
+1749365600764,4,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,4,0
+1749365600868,17,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,17,3
+1749365600965,20,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,19,3
+1749365601064,6,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,6,1
+1749365601166,6,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,6,2
+1749365601266,10,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,10,3
+1749365601366,6,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,6,3
+1749365601467,4,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,4,1
+1749365601563,4,Get all customers,200,OK,true,16297,160,http://localhost:3001/api/customer,4,1

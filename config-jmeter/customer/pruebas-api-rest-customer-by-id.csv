@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,success,bytes,sentBytes,URL,Latency,Connect
+1749365418547,93,Get customer by id,200,OK,true,1082,197,http://localhost:3001/api/customer/8ccc5972-5888-4c47-9f8d-c51d0008760a,93,6
+1749365418527,113,Get customer by id,200,OK,true,1068,197,http://localhost:3001/api/customer/10b68ba7-bbbc-41b4-856d-92bca50924a1,113,26
+1749365418647,4,Get customer by id,200,OK,true,1074,197,http://localhost:3001/api/customer/215d714e-f09a-49f8-81d9-aa5116067679,4,1
+1749365418745,6,Get customer by id,200,OK,true,1059,197,http://localhost:3001/api/customer/64b5e561-8b18-4838-a172-761cf91fe4fc,6,2
+1749365418846,8,Get customer by id,200,OK,true,1073,197,http://localhost:3001/api/customer/251e6899-a8cc-4aba-b0ba-dbee3fafdb11,8,2
+1749365418945,4,Get customer by id,200,OK,true,1065,197,http://localhost:3001/api/customer/785260bd-105a-4c52-ac83-38dd826be020,4,1
+1749365419044,4,Get customer by id,200,OK,true,1066,197,http://localhost:3001/api/customer/74284dcd-c87b-4f7d-b2c6-ae7af547a3dd,4,1
+1749365419145,5,Get customer by id,200,OK,true,1071,197,http://localhost:3001/api/customer/510ebb02-fe43-4eec-95e3-ff12df351e9d,4,1
+1749365419246,4,Get customer by id,200,OK,true,1068,197,http://localhost:3001/api/customer/c975e3ec-93fa-411d-9070-24a3a93d9a5c,4,1
+1749365419345,7,Get customer by id,200,OK,true,1077,197,http://localhost:3001/api/customer/77827c7c-23f9-43cd-add6-6857b551ba90,7,3
