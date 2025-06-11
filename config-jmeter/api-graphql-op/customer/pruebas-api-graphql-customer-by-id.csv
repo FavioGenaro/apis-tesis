@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,success,bytes,sentBytes,URL,Latency,Connect
+1749404084114,70,Get customer by id,200,OK,true,1095,650,http://localhost:3000/graphql,70,2
+1749404084212,4,Get customer by id,200,OK,true,1092,650,http://localhost:3000/graphql,4,1
+1749404084313,6,Get customer by id,200,OK,true,1094,650,http://localhost:3000/graphql,6,1
+1749404084414,6,Get customer by id,200,OK,true,1092,650,http://localhost:3000/graphql,6,4
+1749404084512,5,Get customer by id,200,OK,true,1106,650,http://localhost:3000/graphql,5,1
+1749404084613,5,Get customer by id,200,OK,true,1110,650,http://localhost:3000/graphql,5,2
+1749404084715,6,Get customer by id,200,OK,true,1092,650,http://localhost:3000/graphql,6,2
+1749404084813,5,Get customer by id,200,OK,true,1099,650,http://localhost:3000/graphql,5,2
+1749404084912,15,Get customer by id,200,OK,true,1106,650,http://localhost:3000/graphql,15,3
+1749404085013,5,Get customer by id,200,OK,true,1095,650,http://localhost:3000/graphql,5,2

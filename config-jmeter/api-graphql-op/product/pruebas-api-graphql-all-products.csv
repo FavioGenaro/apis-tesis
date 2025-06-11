@@ -1,0 +1,11 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1749403040672,132,Get all products,200,OK,Grupo de Hilos 1-1,text,true,,44782,718,3,3,http://localhost:3000/graphql,128,0,22
+1749403040691,113,Get all products,200,OK,Grupo de Hilos 1-2,text,true,,44782,718,3,3,http://localhost:3000/graphql,105,0,3
+1749403040791,20,Get all products,200,OK,Grupo de Hilos 1-3,text,true,,44782,718,1,1,http://localhost:3000/graphql,20,0,1
+1749403040892,10,Get all products,200,OK,Grupo de Hilos 1-4,text,true,,44782,718,1,1,http://localhost:3000/graphql,10,0,1
+1749403040992,19,Get all products,200,OK,Grupo de Hilos 1-5,text,true,,44782,718,1,1,http://localhost:3000/graphql,19,0,2
+1749403041093,25,Get all products,200,OK,Grupo de Hilos 1-6,text,true,,44782,718,1,1,http://localhost:3000/graphql,25,0,2
+1749403041192,11,Get all products,200,OK,Grupo de Hilos 1-7,text,true,,44782,718,1,1,http://localhost:3000/graphql,11,0,1
+1749403041292,12,Get all products,200,OK,Grupo de Hilos 1-8,text,true,,44782,718,1,1,http://localhost:3000/graphql,12,0,1
+1749403041392,12,Get all products,200,OK,Grupo de Hilos 1-9,text,true,,44782,718,1,1,http://localhost:3000/graphql,11,0,0
+1749403041492,9,Get all products,200,OK,Grupo de Hilos 1-10,text,true,,44782,718,1,1,http://localhost:3000/graphql,9,0,0

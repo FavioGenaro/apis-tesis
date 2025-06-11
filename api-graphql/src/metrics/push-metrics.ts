@@ -49,7 +49,6 @@ export async function pushMetricInterceptor( metrics: metricsInterceptor) {
         status: metrics.status,
       }
     };
-    console.log(mensaje)
 
     const dataBuffer = Buffer.from(JSON.stringify(mensaje));
 
