@@ -10,8 +10,8 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Hilos">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
-        <intProp name="ThreadGroup.ramp_time">900</intProp>
+        <intProp name="ThreadGroup.num_threads">1000</intProp>
+        <intProp name="ThreadGroup.ramp_time">300</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
@@ -34,7 +34,7 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&quot;operationName&quot;:&quot;Product&quot;,&quot;variables&quot;:{
   &quot;productId&quot;: &quot;${id}&quot;
-},&quot;query&quot;:&quot;query Product($productId: String!) {\n  product(id: $productId) {\n    sku\n    name\n    description\n    price\n    stock\n    currency\n    img_src\n    is_eliminated\n    brand {\n      id\n      name\n    }\n    category {\n      id\n      name\n    }\n    productSpecs {\n      id\n      name\n      value\n    }\n  }\n}&quot;}</stringProp>
+},&quot;query&quot;:&quot;query Product($productId: String!) {\n  product(id: $productId) {\n    sku\n    name\n    price\n    stock\n    currency\n    img_src\n    brand {\n      id\n      name\n    }\n    category {\n      id\n      name\n    }\n    productSpecs {\n      name\n      value\n    }\n  }\n}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -45,12 +45,10 @@
   product(id: $productId) {
     sku
     name
-    description
     price
     stock
     currency
     img_src
-    is_eliminated
     brand {
       id
       name
@@ -60,7 +58,6 @@
       name
     }
     productSpecs {
-      id
       name
       value
     }
@@ -152,13 +149,13 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\config-jmeter\pruebas-api-graphql-product-by-id.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-graphql-op/product/pruebas-api-graphql-product-by-id.csv</stringProp>
         </ResultCollector>
         <hashTree/>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración del CSV Data Set" enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">C:/Users/favio/OneDrive/Desktop/Tesis/APIS/config-jmeter/pruebas-api-graphql-product-by-id-data.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-rest/product/pruebas-api-rest-product-by-id-data.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>

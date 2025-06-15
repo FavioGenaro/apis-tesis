@@ -10,8 +10,8 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Hilos">
-        <intProp name="ThreadGroup.num_threads">10</intProp>
-        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <intProp name="ThreadGroup.num_threads">1000</intProp>
+        <intProp name="ThreadGroup.ramp_time">300</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
@@ -32,7 +32,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument" enabled="true">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;operationName&quot;:&quot;Purchases&quot;,&quot;query&quot;:&quot;query Purchases {\n  purchases {\n    id\n    currency\n    total_cost\n    id_customer\n    is_eliminated\n    status {\n      id\n      name\n    }\n    payments {\n      id\n      currency\n      amount\n      processed_at\n      payment_method {\n        id\n        name\n        description\n      }\n      status {\n        id\n        name\n      }\n    }\n    purchaseDetail {\n      id\n      quantity\n      sale_price\n      id_product\n    }\n  }\n}&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;operationName&quot;:&quot;Purchases&quot;,&quot;query&quot;:&quot;query Purchases {\n  purchases {\n    id\n    currency\n    total_cost\n    id_customer\n    status {\n      name\n    }\n    payments {\n    \t id\n      currency\n      amount\n      processed_at\n      payment_method {\n        name\n      }\n      status {\n        name\n      }\n    }\n    purchaseDetail {\n      quantity\n      sale_price\n      id_product\n    }\n  }\n}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -45,28 +45,22 @@
     currency
     total_cost
     id_customer
-    is_eliminated
     status {
-      id
       name
     }
     payments {
-      id
+    	 id
       currency
       amount
       processed_at
       payment_method {
-        id
         name
-        description
       }
       status {
-        id
         name
       }
     }
     purchaseDetail {
-      id
       quantity
       sale_price
       id_product
@@ -119,7 +113,7 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\config-jmeter\pruebas-api-graphql-all-purchase.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-graphql-op/purchase/pruebas-api-graphql-all-purchase.csv</stringProp>
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="true">

@@ -10,8 +10,8 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Hilos">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
-        <intProp name="ThreadGroup.ramp_time">900</intProp>
+        <intProp name="ThreadGroup.num_threads">1000</intProp>
+        <intProp name="ThreadGroup.ramp_time">300</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
@@ -34,7 +34,7 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&quot;operationName&quot;:&quot;Customer&quot;,&quot;variables&quot;:{
   &quot;customerId&quot;: &quot;${id}&quot;
-},&quot;query&quot;:&quot;query Customer($customerId: ID!) {\n  customer(id: $customerId) {\n    first_name\n    last_name\n    email\n    phone\n    is_eliminated\n    addresses {\n      id\n      street\n      city\n      country\n      zip\n      reference\n      is_default\n      is_eliminated\n    }\n  }\n}&quot;}</stringProp>
+},&quot;query&quot;:&quot;query Customer($customerId: ID!) {\n  customer(id: $customerId) {\n    first_name\n    last_name\n    email\n    phone\n    addresses {\n      id\n      street\n      city\n      country\n      zip\n      reference\n      is_default\n    }\n  }\n}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -47,7 +47,6 @@
     last_name
     email
     phone
-    is_eliminated
     addresses {
       id
       street
@@ -56,7 +55,6 @@
       zip
       reference
       is_default
-      is_eliminated
     }
   }
 }</stringProp>
@@ -77,7 +75,7 @@
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -114,7 +112,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Ver Resultados en Árbol">
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Ver Resultados en Árbol" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -146,13 +144,13 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\config-jmeter\pruebas-api-graphql-customer-by-id.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-graphql-op/customer/pruebas-api-graphql-customer-by-id.csv</stringProp>
         </ResultCollector>
         <hashTree/>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración del CSV Data Set">
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración del CSV Data Set" enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">C:/Users/favio/OneDrive/Desktop/Tesis/APIS/config-jmeter/pruebas-api-graphql-customer-by-id-data.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-rest/customer/pruebas-api-rest-customer-by-id-data.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>

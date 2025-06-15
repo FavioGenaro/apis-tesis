@@ -10,8 +10,8 @@
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Hilos">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
-        <intProp name="ThreadGroup.ramp_time">900</intProp>
+        <intProp name="ThreadGroup.num_threads">1000</intProp>
+        <intProp name="ThreadGroup.ramp_time">300</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
@@ -34,7 +34,7 @@
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&quot;operationName&quot;:&quot;Purchase&quot;,&quot;variables&quot;:{
   &quot;purchaseId&quot;: &quot;${id}&quot;
-},&quot;query&quot;:&quot;query Purchase($purchaseId: String!) {\n  purchase(id: $purchaseId) {\n    id\n    currency\n    total_cost\n    id_customer\n    is_eliminated\n    status {\n      id\n      name\n    }\n    payments {\n      id\n      currency\n      amount\n      processed_at\n      payment_method {\n        id\n        name\n        description\n      }\n      status {\n        id\n        name\n      }\n    }\n    purchaseDetail {\n      id\n      quantity\n      sale_price\n      id_product\n    }\n  }\n}&quot;}</stringProp>
+},&quot;query&quot;:&quot;query Purchase($purchaseId: String!) {\n  purchase(id: $purchaseId) {\n    currency\n    total_cost\n    id_customer\n    status {\n      name\n    }\n    payments {\n    \t id\n      currency\n      amount\n      processed_at\n      payment_method {\n        name\n      }\n      status {\n        name\n      }\n    }\n    purchaseDetail {\n      quantity\n      sale_price\n      id_product\n    }\n  }\n}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -43,32 +43,25 @@
           <stringProp name="GraphQLHTTPSampler.operationName">Purchase</stringProp>
           <stringProp name="GraphQLHTTPSampler.query">query Purchase($purchaseId: String!) {
   purchase(id: $purchaseId) {
-    id
     currency
     total_cost
     id_customer
-    is_eliminated
     status {
-      id
       name
     }
     payments {
-      id
+    	 id
       currency
       amount
       processed_at
       payment_method {
-        id
         name
-        description
       }
       status {
-        id
         name
       }
     }
     purchaseDetail {
-      id
       quantity
       sale_price
       id_product
@@ -161,13 +154,13 @@
               <connectTime>true</connectTime>
             </value>
           </objProp>
-          <stringProp name="filename">C:\Users\favio\OneDrive\Desktop\Tesis\APIS\config-jmeter\pruebas-api-graphql-purchase-by-id.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-graphql-op/purchase/pruebas-api-graphql-purchase-by-id.csv</stringProp>
         </ResultCollector>
         <hashTree/>
         <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración del CSV Data Set" enabled="true">
           <stringProp name="delimiter">,</stringProp>
           <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="filename">C:/Users/favio/OneDrive/Desktop/Tesis/APIS/config-jmeter/pruebas-api-graphql-purchase-by-id-data.csv</stringProp>
+          <stringProp name="filename">/apache-jmeter-5.6.3/bin/api-tesis/apis-tesis/config-jmeter/api-rest/purchase/pruebas-api-rest-purchase-by-id-data.csv</stringProp>
           <boolProp name="ignoreFirstLine">true</boolProp>
           <boolProp name="quotedData">false</boolProp>
           <boolProp name="recycle">true</boolProp>
